@@ -60,10 +60,10 @@ model mother {
 
 model News {
   news_id            Int      @default(autoincrement()) @id
-  image              Bytes
+  image_url          String
   title              String
   description        String
-  publication_date   DateTime
+  publication_date   DateTime @default(now())
 }
 
 model Profile {
