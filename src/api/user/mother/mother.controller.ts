@@ -12,18 +12,16 @@ const motherController ={
         //check if the employye exist before
         const isMotherExist = await prisma.user.findFirst({where:{
            OR:[
-              {email: req.body.email},
-              {phone: req.body.phone}
+              {username: req.body.email},
+              {phonenumber: req.body.phone}
            ]
         }});
-        if(isMotherExist){
-           return next(new UnprocessableEntity('Email or Phone has been registered before',403,ErrorCode.USER_ALREADY_EXIST,null));
-        }
+        
         req.body.password = bcrypt.hashSync(req.body.password, 10);
         //create the employee
         const newMother=await prisma.mother.create({
            data:{
-              username:re
+              username:req.body.username,
               password: req.body.password,
               phonenumber: req.body.phone,
               role: "MOTHER",
@@ -32,21 +30,5 @@ const motherController ={
 
               
               },
-              motherProfile:{
-                 create:{
-                    birthdate: new Date(req.body.birthdate),
-                    bloodType: req.body.bloodType,
-                    RH: req.body.RH,  
-                 }
-              }
-        },
-        include:{
-           profile: true,
-           motherProfile:true
-        }
-     
-     });
-     res.status(201).json(newMother);
-     },
-}
+            })
 export default motherController;
