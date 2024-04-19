@@ -7,7 +7,7 @@ import { prisma } from "../../../config/prisma.js";
 import bcrypt from 'bcrypt'
 
 const motherController ={
-    register: async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
+    register: async (req:Request,res:Response,next:NextFunction) =>{
         motherSchema.registerMother.parse(req.body);
         //check if the employye exist before
         const isMotherExist = await prisma.user.findFirst({where:{
@@ -30,5 +30,6 @@ const motherController ={
 
               
               },
-            })
+            })}}
+        
 export default motherController;
