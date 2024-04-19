@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admins {
+  id Int @id @default(autoincrement())
+  email String @unique
+  phone String @unique
+  password String
+  }
+
+model Child {
+  child_id       Int      @default(autoincrement()) @id
+  mother_id      Int?
+  firstname      String
+  lastname       String
+  gender         String
+  date_of_birth  DateTime?
+  blood_type     String?
+  middlename     String
+
+  mother         mother?  @relation(fields: [mother_id], references: [mother_id])
+  vaccinations   Vaccination[]
+}
+
+model Doctor {
+  doctor_id        Int      @default(autoincrement()) @id
+  user_id          Int
+  contact_number   String
+  specialization   String
+
+  user             User     @relation(fields: [user_id], references: [user_id])
+  vaccinations     Vaccination[]
+}
+
+model mother {
+  mother_id      Int      @default(autoincrement()) @id
+  userid         Int
+  date_of_birth  DateTime
+  address        String
+  phonenumber    String?
+
+  
+  schedules      Schedule[]
+  user           User       @relation(fields: [userid], references: [user_id])
+   child         Child[]
+}
+
+model News {
+  news_id            Int      @default(autoincrement()) @id
+  image              Bytes
+  title              String
+  description        String
+  publication_date   DateTime
+}
+
+model Profile {
+  profile_id   Int      @default(autoincrement()) @id
+  user_id      Int
+  image        Bytes?
+
+  user         User     @relation(fields: [user_id], references: [user_id])
+}
+
+model Schedule {
+  schedule_id    Int       @default(autoincrement()) @id
+  child_id       Int
+  next_schedule  DateTime
+
+  child          mother    @relation(fields: [child_id], references: [mother_id])
+}
+
+model User {
+  user_id       Int       @default(autoincrement()) @id
+  username      String
+  firstname     String
+  lastname      String
+  role          String
+  password      String
+  status        Int?
+  createdDate   DateTime?
+  phonenumber   String
+
+  doctors       Doctor[]
+  mothers       mother[]
+  profiles      Profile[]
+ 
+}
+
+model Vaccination {
+  vaccination_id   Int       @default(autoincrement()) @id
+  child_id         Int
+  doctor_id        Int
+  creationDate     DateTime
+  round            String
+  vaccine_id       Int
+
+  child            Child    @relation(fields: [child_id], references: [child_id])
+  doctor           Doctor   @relation(fields: [doctor_id], references: [doctor_id])
+  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [vaccine_id])
+}
+
+model Vaccine {
+  vaccine_id    Int      @default(autoincrement()) @id
+  v_name        String
+  description   String?
+vaccinations    Vaccination[]
+  
+}
