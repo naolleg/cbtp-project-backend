@@ -2,12 +2,12 @@
 CREATE TABLE `Child` (
     `child_id` INTEGER NOT NULL AUTO_INCREMENT,
     `mother_id` INTEGER NULL,
-    `firstname` VARCHAR(191) NOT NULL,
-    `lastname` VARCHAR(191) NOT NULL,
-    `gender` VARCHAR(191) NOT NULL,
+    `firstname` TEXT,
+    `lastname` TEXT,
+    `gender` TEXT,
     `date_of_birth` DATETIME(3) NULL,
     `blood_type` VARCHAR(191) NULL,
-    `middlename` VARCHAR(191) NOT NULL,
+    `middlename` TEXT,
 
     PRIMARY KEY (`child_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -16,8 +16,8 @@ CREATE TABLE `Child` (
 CREATE TABLE `Doctor` (
     `doctor_id` INTEGER NOT NULL AUTO_INCREMENT,
     `user_id` INTEGER NOT NULL,
-    `contact_number` VARCHAR(191) NOT NULL,
-    `specialization` VARCHAR(191) NOT NULL,
+    `contact_number` TEXT,
+    `specialization` TEXT,
 
     PRIMARY KEY (`doctor_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -27,7 +27,7 @@ CREATE TABLE `mother` (
     `mother_id` INTEGER NOT NULL AUTO_INCREMENT,
     `userid` INTEGER NOT NULL,
     `date_of_birth` DATETIME(3) NOT NULL,
-    `address` VARCHAR(191) NOT NULL,
+    `address` TEXT,
     `phonenumber` VARCHAR(191) NULL,
 
     PRIMARY KEY (`mother_id`)
@@ -37,8 +37,8 @@ CREATE TABLE `mother` (
 CREATE TABLE `News` (
     `news_id` INTEGER NOT NULL AUTO_INCREMENT,
     `image` LONGBLOB NOT NULL,
-    `title` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `title` TEXT,
+    `description` TEXT,
     `publication_date` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`news_id`)
@@ -65,14 +65,14 @@ CREATE TABLE `Schedule` (
 -- CreateTable
 CREATE TABLE `User` (
     `user_id` INTEGER NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(191) NOT NULL,
-    `firstname` VARCHAR(191) NOT NULL,
-    `lastname` VARCHAR(191) NOT NULL,
-    `role` VARCHAR(191) NOT NULL,
-    `password` VARCHAR(191) NOT NULL,
+    `username` TEXT,
+    `firstname` TEXT,
+    `lastname` TEXT,
+    `role` TEXT,
+    `password` TEXT,
     `status` INTEGER NULL,
     `createdDate` DATETIME(3) NULL,
-    `phonenumber` VARCHAR(191) NOT NULL,
+    `phonenumber` TEXT,
 
     PRIMARY KEY (`user_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -83,7 +83,7 @@ CREATE TABLE `Vaccination` (
     `child_id` INTEGER NOT NULL,
     `doctor_id` INTEGER NOT NULL,
     `creationDate` DATETIME(3) NOT NULL,
-    `round` VARCHAR(191) NOT NULL,
+    `round` TEXT,
     `vaccine_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`vaccination_id`)
@@ -92,7 +92,7 @@ CREATE TABLE `Vaccination` (
 -- CreateTable
 CREATE TABLE `Vaccine` (
     `vaccine_id` INTEGER NOT NULL AUTO_INCREMENT,
-    `v_name` VARCHAR(191) NOT NULL,
+    `v_name` TEXT,
     `description` VARCHAR(191) NULL,
 
     PRIMARY KEY (`vaccine_id`)

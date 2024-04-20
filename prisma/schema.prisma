@@ -7,6 +7,12 @@
 generator client {
   provider = "prisma-client-js"
 }
+enum role{
+DOCTOR
+REGISTRER
+MOTHER
+ADMIN
+}
 
 datasource db {
   provider = "mysql"
@@ -19,102 +25,116 @@ model Admins {
   email String @unique
   phone String @unique
   password String
+  activeSatatus Int
+  createdAt DateTime @default(now())
+  news News[]
+  vaccine Vaccine[]
   }
 
-model Child {
-  child_id       Int      @default(autoincrement()) @id
-  mother_id      Int?
-  firstname      String
-  lastname       String
-  gender         String
-  date_of_birth  DateTime?
-  blood_type     String?
-  middlename     String
-
-  mother         mother?  @relation(fields: [mother_id], references: [mother_id])
-  vaccinations   Vaccination[]
-}
-
-model Doctor {
-  doctor_id        Int      @default(autoincrement()) @id
-  user_id          Int
-  contact_number   String
-  specialization   String
-
-  user             User     @relation(fields: [user_id], references: [user_id])
-  vaccinations     Vaccination[]
-}
-
-model mother {
-  mother_id      Int      @default(autoincrement()) @id
-  userid         Int
-  date_of_birth  DateTime
-  address        String
-  phonenumber    String?
-
-  
-  schedules      Schedule[]
-  user           User       @relation(fields: [userid], references: [user_id])
-   child         Child[]
-}
-
 model News {
-  news_id            Int      @default(autoincrement()) @id
+  id            Int  @id    @default(autoincrement())
+  adminId Int
   image_url          String
   title              String
   description        String
   publication_date   DateTime @default(now())
+  admin Admins @relation(fields: [adminId],references: [id],onDelete: Cascade)
+  
 }
 
-model Profile {
-  profile_id   Int      @default(autoincrement()) @id
-  user_id      Int
-  image        Bytes?
-
-  user         User     @relation(fields: [user_id], references: [user_id])
-}
-
-model Schedule {
-  schedule_id    Int       @default(autoincrement()) @id
-  child_id       Int
-  next_schedule  DateTime
-
-  child          mother    @relation(fields: [child_id], references: [mother_id])
+model Vaccine {
+  id    Int      @default(autoincrement()) @id
+  adminId Int
+  v_name        String
+  description   String?
+  ageRange String
+  vaccinations    Vaccination[]
+  admin Admins @relation(fields: [adminId],references: [id],onDelete: Cascade)
 }
 
 model User {
-  user_id       Int       @default(autoincrement()) @id
+  id       Int       @default(autoincrement()) @id
   username      String
-  firstname     String
-  lastname      String
-  role          String
+  role          role
   password      String
   status        Int?
   createdDate   DateTime?
   phonenumber   String
-
-  doctors       Doctor[]
+  employee       Employee[]
   mothers       mother[]
   profiles      Profile[]
- 
+  Address       Address[]
 }
+
+model Profile {
+  id   Int      @default(autoincrement()) @id
+  user_id      Int @unique
+  firstname     String
+  lastname      String
+  middleName    String
+  image        Bytes?
+  user         User     @relation(fields: [user_id], references: [id])
+}
+
+model Address {
+  id   Int      @default(autoincrement()) @id
+  user_id     Int @unique
+  region  String  
+  city    String
+  subcity String
+  user           User       @relation(fields: [user_id], references: [id])
+}
+
+model Employee {
+  id               Int      @default(autoincrement()) @id
+  user_id          Int      @unique
+  specialization   String
+  user             User     @relation(fields: [user_id], references: [id])
+  vaccinations     Vaccination[]
+}
+
+
+model mother {
+  id      Int      @default(autoincrement()) @id
+  userid         Int     @unique
+  date_of_birth  DateTime
+  schedules      Schedule[]
+  user           User       @relation(fields: [userid], references: [id])
+  child         Child[]
+}
+
+model Child {
+  id       Int      @default(autoincrement()) @id
+  mother_id      Int?
+  firstname      String
+  lastname       String
+  middlename     String
+  gender         String
+  date_of_birth  DateTime?
+  blood_type     String?
+  mother         mother?  @relation(fields: [mother_id], references: [id])
+  vaccinations   Vaccination[]
+}
+
+model Schedule {
+  id    Int       @default(autoincrement()) @id
+  child_id       Int
+  next_schedule  DateTime
+  description    String
+  createdAt DateTime @default(now())  
+  child          mother    @relation(fields: [child_id], references: [id])
+}
+
 
 model Vaccination {
-  vaccination_id   Int       @default(autoincrement()) @id
+  id   Int       @default(autoincrement()) @id
   child_id         Int
   doctor_id        Int
-  creationDate     DateTime
+  creationDate     DateTime  @default(now())  
   round            String
   vaccine_id       Int
-  child            Child    @relation(fields: [child_id], references: [child_id])
-  doctor           Doctor   @relation(fields: [doctor_id], references: [doctor_id])
-  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [vaccine_id])
+  child            Child    @relation(fields: [child_id], references: [id])
+  Employee         Employee @relation(fields: [doctor_id], references: [id])
+  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id])
 }
 
-model Vaccine {
-  vaccine_id    Int      @default(autoincrement()) @id
-  v_name        String
-  description   String?
-vaccinations    Vaccination[]
-  
-}
