@@ -37,7 +37,7 @@ const usersController = {
         role: user.role,
         firstName: userProfile?.firstname,
       };
-      const token = jwt.sign(payload, SECRET);
+      const token = jwt.sign(payload, SECRET!);
 
       return res.status(200).json({
         token,
