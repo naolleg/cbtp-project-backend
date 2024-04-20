@@ -106,7 +106,6 @@ model Vaccination {
   creationDate     DateTime
   round            String
   vaccine_id       Int
-
   child            Child    @relation(fields: [child_id], references: [child_id])
   doctor           Doctor   @relation(fields: [doctor_id], references: [doctor_id])
   vaccine          Vaccine  @relation(fields: [vaccine_id], references: [vaccine_id])
