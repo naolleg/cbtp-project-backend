@@ -49,7 +49,7 @@ model Vaccine {
   description   String?
   ageRange String
   vaccinations    Vaccination[]
-  admin Admins @relation(fields: [adminId],references: [id],onDelete: Cascade)
+  admin Admins? @relation(fields: [adminId],references: [id],onDelete: Cascade)
 }
 
 model User {

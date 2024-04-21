@@ -7,16 +7,7 @@ const newsController = {
   //create news
    createnew: async (req:Request,res:Response,nex:NextFunction)=>{
       newsSchema.createnew.parse(req.body);
-      const theNewNews = await prisma.news.create({
-         data: {
-           title: req.body.title,
-           description: req.body.description,
-           publication_date: req.body.publication_date,
-           image_url:req.body.image
-           
-         },
-       
-       });
+      const theNewNews = await prisma.news.create({data: req.body})
       res.status(200).json(theNewNews);
    },
    

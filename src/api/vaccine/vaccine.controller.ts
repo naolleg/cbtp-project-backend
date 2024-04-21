@@ -10,26 +10,22 @@ const vaccineController = {
     try {
       vaccineSchema.register.parse(req.body);
       // Check if the vaccine already exists
-      const vaccine = await prisma.vaccines.findFirst({
+      const vaccine = await prisma.vaccine.findFirst({
         where: {
           OR: [
-            { name: req.body.name },
-            { category: req.body.name }
+            { v_name: req.body.v_name },
+           
           ]
         }
       });
 
       if (vaccine) {
-        throw new UnprocessableEntity(
-          "The vaccine is already registered",
-          403,
-          ErrorCode.VACCINE_ALREADY_EXIST,
-          null
-        );
+        return res.status(401).json({
+          message: "vaccine already exists"
+        });
       }
-
       req.body.registeredBy = req.admin?.id;
-      const newVaccine = await prisma.vaccines.create({ data: req.body });
+      const newVaccine = await prisma.vaccine.create({ data: req.body });
       res.status(200).json(newVaccine);
     } catch (error) {
       next(error);
@@ -38,7 +34,7 @@ const vaccineController = {
 
   getAll: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const vaccines = await prisma.vaccines.findMany();
+      const vaccines = await prisma.vaccine.findMany();
       res.status(200).json(vaccines);
     } catch (error) {
       next(error);
