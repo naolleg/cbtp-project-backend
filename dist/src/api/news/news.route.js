@@ -8,4 +8,7 @@ const news_controller_js_1 = __importDefault(require("./news.controller.js"));
 const newsRoute = (0, express_1.Router)();
 newsRoute.post("/news", news_controller_js_1.default.createnew);
 newsRoute.get("/news", news_controller_js_1.default.getNews);
+newsRoute.put("/news/:id", news_controller_js_1.default.updateNews);
+// newsRoute.delete("news/:id",newsController.deleteNews);
+// newsRoute.get("news/:id",newsController.getSingleNews);
 exports.default = newsRoute;

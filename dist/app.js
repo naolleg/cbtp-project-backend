@@ -13,6 +13,7 @@ dotenv_1.default.config();
 // Middleware
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+console.log("sfbsvdfvdfead");
 // Routes
 app.use(route_1.default);
 // app.get('/',async (req: Request,res: Response)=>{

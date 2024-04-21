@@ -1,7 +1,11 @@
 import { Router } from "express";
 import vaccineController from "./vaccine.controller.js";
 
-const vaccineRouter:Router = Router();
+const vaccineRoute: Router = Router();
 
-vaccineRouter.get('/vaccine', vaccineController.getAll);
-vaccineRouter.post('/vaccine',vaccineController.register);
+
+
+vaccineRoute.get("/vaccine", vaccineController.getAll);
+vaccineRoute.post("/vaccine", vaccineController.register);
+
+export default vaccineRoute;

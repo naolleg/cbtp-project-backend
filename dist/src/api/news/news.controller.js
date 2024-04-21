@@ -18,6 +18,7 @@ const newsController = {
     //create news
     createnew: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         news_schema_js_1.default.createnew.parse(req.body);
+        console.log("assds");
         const theNewNews = yield prisma_js_1.prisma.news.create({
             data: {
                 title: req.body.title,
@@ -35,8 +36,40 @@ const newsController = {
             orderBy: {
                 publication_date: "desc"
             },
+            include: {
+                admin: {
+                    include: {}
+                }
+            }
         });
         return res.status(200).json(news);
+    }),
+    //update news
+    updateNews: (req, res, nex) => __awaiter(void 0, void 0, void 0, function* () {
+        req.newsId = +req.params.id;
+        news_schema_js_1.default.updateNews.parse(req.body);
+        const foundNews = yield prisma_js_1.prisma.news.findFirstOrThrow({
+            where: {
+                id: +req.newsId
+            }
+        });
+        if (!foundNews) {
+            return res.status(404).json({ error: 'News not found' });
+        }
+        // Update the news using req.body
+        const updatedNews = yield prisma_js_1.prisma.news.update({
+            data: {
+                title: req.body.title,
+                description: req.body.description,
+                publication_date: new Date(),
+                image_url: req.body.image_url,
+                adminId: req.body.adminId
+            },
+            where: {
+                id: foundNews.id
+            }
+        });
+        res.status(200).json(updatedNews);
     }),
 };
 exports.default = newsController;

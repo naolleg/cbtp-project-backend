@@ -11,6 +11,7 @@ dotenv.config();
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+console.log("sfbsvdfvdfead");
 
 // Routes
 app.use(appRoute);

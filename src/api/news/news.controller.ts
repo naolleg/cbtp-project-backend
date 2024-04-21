@@ -7,6 +7,7 @@ const newsController = {
   //create news
    createnew: async (req:Request,res:Response)=>{
       newsSchema.createnew.parse(req.body);
+      console.log("assds");
       const theNewNews = await prisma.news.create({
         data: {
           title: req.body.title,
@@ -26,16 +27,50 @@ const newsController = {
       orderBy:{
         publication_date:"desc"
       },
+      include:{
+        admin:{
+          include:{
+            
+          }
+        }
+      }
     
     });
     
     return res.status(200).json(news);
 
    },
-   
+    //update news
+    updateNews: async (req:Request,res:Response,nex:NextFunction)=>{
+      
+      req.newsId=+req.params.id;
+      newsSchema.updateNews.parse(req.body);
+      const foundNews=await prisma.news.findFirstOrThrow({
+        where:{
+          id: +req.newsId
+        }
+      });
+      if (!foundNews) {
+        return res.status(404).json({ error: 'News not found' });
+      }
+      // Update the news using req.body
+      const  updatedNews = await prisma.news.update({
+        data: {
+          title: req.body.title,
+          description: req.body.description,
+          publication_date: new Date(),
+          image_url: req.body.image_url,
+          adminId: req.body.adminId
+          
+        },
+        where:{
+          id : foundNews.id
+        }
+      });
+      res.status(200).json(updatedNews);
   
-}
+     },
 
-
+    }
 
 export default newsController;
