@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { UnprocessableEntity, ErrorCode } from "your-error-package"; // Replace with the appropriate error package
 import vaccineSchema from "./vaccine.schema.js";
 
 const prisma = new PrismaClient();
@@ -24,7 +23,7 @@ const vaccineController = {
           message: "vaccine already exists"
         });
       }
-      req.body.registeredBy = req.admin?.id;
+
       const newVaccine = await prisma.vaccine.create({ data: req.body });
       res.status(200).json(newVaccine);
     } catch (error) {

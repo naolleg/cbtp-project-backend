@@ -4,4 +4,4 @@ import vaccineController from "./vaccine.controller.js";
 const vaccineRouter:Router = Router();
 
 vaccineRouter.get('/vaccine', vaccineController.getAll);
-vaccineRouter.post('/',vaccineController.register);
+vaccineRouter.post('/vaccine',vaccineController.register);

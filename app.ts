@@ -14,11 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 // app.use(appRoute);
-app.get('/',async (req: Request,res: Response)=>{
-  const admin = await prisma.admins.
+// app.get('/',async (req: Request,res: Response)=>{
+//   const admin = await prisma.admins.
   
 
-})
+// })
 
 // Start the server
 app.listen(PORT, () => {
