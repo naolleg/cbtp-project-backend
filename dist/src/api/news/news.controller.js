@@ -16,9 +16,17 @@ const news_schema_js_1 = __importDefault(require("./news.schema.js"));
 const prisma_js_1 = require("../../config/prisma.js");
 const newsController = {
     //create news
-    createnew: (req, res, nex) => __awaiter(void 0, void 0, void 0, function* () {
+    createnew: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         news_schema_js_1.default.createnew.parse(req.body);
-        const theNewNews = yield prisma_js_1.prisma.news.create({ data: req.body });
+        const theNewNews = yield prisma_js_1.prisma.news.create({
+            data: {
+                title: req.body.title,
+                description: req.body.description,
+                publication_date: new Date(),
+                image_url: req.body.image_url,
+                adminId: req.body.adminId
+            }
+        });
         res.status(200).json(theNewNews);
     }),
     //get public news

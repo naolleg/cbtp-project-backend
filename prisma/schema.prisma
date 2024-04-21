@@ -38,7 +38,7 @@ model News {
   title              String
   description        String
   publication_date   DateTime @default(now())
-  admin Admins @relation(fields: [adminId],references: [id],onDelete: Cascade)
+  admin Admins? @relation(fields: [adminId],references: [id],onDelete: Cascade)
   
 }
 

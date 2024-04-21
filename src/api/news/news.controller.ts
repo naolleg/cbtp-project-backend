@@ -5,9 +5,18 @@ import { prisma } from "../../config/prisma.js";
 
 const newsController = {
   //create news
-   createnew: async (req:Request,res:Response,nex:NextFunction)=>{
+   createnew: async (req:Request,res:Response)=>{
       newsSchema.createnew.parse(req.body);
-      const theNewNews = await prisma.news.create({data: req.body})
+      const theNewNews = await prisma.news.create({
+        data: {
+          title: req.body.title,
+          description: req.body.description,
+          publication_date: new Date(),
+          image_url: req.body.image_url,
+          adminId: req.body.adminId
+        }
+       
+       });
       res.status(200).json(theNewNews);
    },
    

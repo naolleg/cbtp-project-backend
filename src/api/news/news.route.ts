@@ -1,6 +1,10 @@
 import { Router } from "express";
-
 import newsController from "./news.controller.js";
-const newsRouter = Router();
-newsRouter.post("news",newsController.createnew);
-newsRouter.get("/news",newsController.getNews);
+
+const newsRoute = Router();
+
+newsRoute.post("/news", newsController.createnew);
+
+newsRoute.get("/news", newsController.getNews);
+
+export default newsRoute;

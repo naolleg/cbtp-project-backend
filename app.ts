@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-// app.use(appRoute);
+app.use(appRoute);
 // app.get('/',async (req: Request,res: Response)=>{
 //   const admin = await prisma.admins.
   
