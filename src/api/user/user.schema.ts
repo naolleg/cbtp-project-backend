@@ -1,25 +1,63 @@
 import { z } from "zod";
 const userSchema ={
 login: z.object({
-    email:z.string().email(),
+    username:z.string(),
     password:z.string()
     
 }),
         registerEmployee: z.object({
-        healthStationId: z.number(),
-        email: z.string().email(),
-        phone: z.string().max(14),
+        phonenumber: z.string().max(14),
         password: z.string().min(8).max(20),
        //profile
-        firstName: z.string(),
-        middleName: z.string(),
-        lastName: z.string(),
-        sex: z.enum(['MALE', 'FEMALE']),
-        imageUrl: z.string(),
+        firstname: z.string(),
+        middlename: z.string(),
+        lastname: z.string(),
+        gender: z.enum(['MALE', 'FEMALE']),
+        image_url: z.string(),
         //manager, reception and hp related
-        title: z.string(),
         position: z.string()
         
  }),
+ updateEmployee : z.object({
+    phonenumber: z.string().max(14),
+    password: z.string().min(8).max(20),
+   //profile
+    firstname: z.string(),
+    middlename: z.string(),
+    lastname: z.string(),
+    gender: z.enum(['MALE', 'FEMALE']),
+    image_url: z.string(),
+    //manager, reception and hp related
+    position: z.string()
+    
+}),
+registerMother: z.object({
+
+    phonenumber: z.string().max(14),
+    password: z.string().min(8).max(20),
+   
+    firstname: z.string(),
+    middlename: z.string(),
+    lastname: z.string(),
+     gender: z.enum(['MALE', 'FEMALE']),
+    image_url: z.string(),
+    //mother related
+    date_of_birth : z.string(),
+
+  
+ }),
+ updateMother:z.object({
+
+    phonenumber: z.string().max(14),
+    password: z.string().min(8).max(20),
+   
+    firstname: z.string(),
+    middlename: z.string(),
+    lastname: z.string(),
+     gender: z.enum(['MALE', 'FEMALE']),
+    image_url: z.string(),
+    //mother related
+    date_of_birth : z.string(),
+}),
 }
 export default userSchema;

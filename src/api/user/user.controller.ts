@@ -13,7 +13,8 @@ const usersController = {
       const user = await prisma.user.findFirst({
         where: { username: req.body.username },
       });
-
+         console.log(user);
+         
       if (!user) {
         return res.status(401).json({
           message: "Invalid username or password",
@@ -44,8 +45,25 @@ const usersController = {
         message: "Login successfully",
       });
     } catch (error) {
-      next(error);
+      throw (error);
     }
+  },
+  myInfo: async (req: Request, res: Response, next: NextFunction) => {
+    const user = await prisma.user.findFirst({
+      where: { id:req.userId },
+      include: {
+        _count: true,
+        profiles: true,
+        mothers:{
+        include:{
+           child:true,
+          
+        }
+        },
+        employee: true,
+      },
+    });
+    res.status(200).json(user);
   },
 };
 

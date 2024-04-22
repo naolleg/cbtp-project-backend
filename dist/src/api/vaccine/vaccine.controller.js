@@ -43,16 +43,16 @@ const vaccineController = {
         // } catch (error) {
         // throw error }
     }),
-    getAll: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const vaccines = yield prisma_js_1.prisma.vaccine.findMany();
             res.status(200).json(vaccines);
         }
         catch (error) {
-            next(error);
+            throw (error);
         }
     }),
-    updatevaccine: (req, res, nex) => __awaiter(void 0, void 0, void 0, function* () {
+    updatevaccine: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         req.vaccineId = +req.params.id;
         vaccine_schema_js_1.default.updatevaccine.parse(req.body);
         const foundvaccine = yield prisma_js_1.prisma.vaccine.findFirst({

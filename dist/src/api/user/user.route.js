@@ -7,4 +7,5 @@ const express_1 = require("express");
 const userRouter = (0, express_1.Router)();
 const user_controller_js_1 = __importDefault(require("./user.controller.js"));
 userRouter.use('/login', user_controller_js_1.default.loginUser);
+userRouter.use("/me", user_controller_js_1.default.myInfo);
 exports.default = userRouter;

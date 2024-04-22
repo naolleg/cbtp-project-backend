@@ -11,7 +11,7 @@ declare module 'express' {
     newsId: number;
     vaccineId: number;
     // hsId: number;
-    // mId: number;
+    mId: number;
     // childId: number;
   }
 }

@@ -25,6 +25,7 @@ const usersController = {
             const user = yield prisma_1.prisma.user.findFirst({
                 where: { username: req.body.username },
             });
+            console.log(user);
             if (!user) {
                 return res.status(401).json({
                     message: "Invalid username or password",
@@ -52,8 +53,24 @@ const usersController = {
             });
         }
         catch (error) {
-            next(error);
+            throw (error);
         }
+    }),
+    myInfo: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield prisma_1.prisma.user.findFirst({
+            where: { id: req.userId },
+            include: {
+                _count: true,
+                profiles: true,
+                mothers: {
+                    include: {
+                        child: true,
+                    }
+                },
+                employee: true,
+            },
+        });
+        res.status(200).json(user);
     }),
 };
 exports.default = usersController;

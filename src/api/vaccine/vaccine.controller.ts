@@ -40,15 +40,15 @@ const vaccineController = {
     // throw error }
   },
 
-  getAll: async (req: Request, res: Response, next: NextFunction) => {
+  getAll: async (req: Request, res: Response) => {
     try {
       const vaccines = await prisma.vaccine.findMany();
       res.status(200).json(vaccines);
     } catch (error) {
-      next(error);
+      throw(error);
     }
   },
-  updatevaccine: async (req:Request,res:Response,nex:NextFunction)=>{
+  updatevaccine: async (req:Request,res:Response)=>{
       
     req.vaccineId=+req.params.id;
     vaccineSchema.updatevaccine.parse(req.body);

@@ -13,7 +13,14 @@ REGISTRER
 MOTHER
 ADMIN
 }
-
+enum GENDER{
+  FEMALE
+  MALE
+}
+enum POSITION{
+DOCTOR
+REGISTRER
+}
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -57,13 +64,14 @@ model User {
   username      String
   role          role
   password      String
-  status        Int?
-  createdDate   DateTime?
+  status        Int  @default(1)
+  createdDate   DateTime @default(now())
   phonenumber   String
   employee       Employee[]
   mothers       mother[]
   profiles      Profile[]
   Address       Address[]
+  
 }
 
 model Profile {
@@ -71,9 +79,11 @@ model Profile {
   user_id      Int @unique
   firstname     String
   lastname      String
-  middleName    String
-  image        Bytes?
-  user         User     @relation(fields: [user_id], references: [id])
+  middlename    String
+  image_url     String
+  gender        GENDER
+  position       POSITION?
+  user         User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
 }
 
 model Address {
@@ -88,18 +98,19 @@ model Address {
 model Employee {
   id               Int      @default(autoincrement()) @id
   user_id          Int      @unique
-  email            String   @
-  user             User     @relation(fields: [user_id], references: [id])
+  email            String   @unique
+  user             User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
   vaccinations     Vaccination[]
+ 
 }
 
 
 model mother {
   id      Int      @default(autoincrement()) @id
   userid         Int     @unique
-  date_of_birth  DateTime
+  date_of_birth  String
   schedules      Schedule[]
-  user           User       @relation(fields: [userid], references: [id])
+  user           User       @relation(fields: [userid], references: [id],onDelete: Cascade)
   child         Child[]
 }
 
