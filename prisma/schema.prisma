@@ -88,7 +88,7 @@ model Address {
 model Employee {
   id               Int      @default(autoincrement()) @id
   user_id          Int      @unique
-  specialization   String
+  email            String   @
   user             User     @relation(fields: [user_id], references: [id])
   vaccinations     Vaccination[]
 }

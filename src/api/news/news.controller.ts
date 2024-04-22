@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import newsSchema from "./news.schema.js";
 import { prisma } from "../../config/prisma.js";
+import { log } from "console";
 
 
 const newsController = {
@@ -45,14 +46,17 @@ const newsController = {
       
       req.newsId=+req.params.id;
       newsSchema.updateNews.parse(req.body);
-      const foundNews=await prisma.news.findFirstOrThrow({
+   
+      const foundNews=await prisma.news.findFirst({
         where:{
           id: +req.newsId
         }
       });
+    
       if (!foundNews) {
         return res.status(404).json({ error: 'News not found' });
       }
+
       // Update the news using req.body
       const  updatedNews = await prisma.news.update({
         data: {

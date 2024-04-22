@@ -6,6 +6,7 @@ import { PORT } from './src/config/secrete';
 import { prisma } from './src/config/prisma';
 
 const app = express();
+
 dotenv.config();
 
 // Middleware

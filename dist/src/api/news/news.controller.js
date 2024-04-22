@@ -48,7 +48,7 @@ const newsController = {
     updateNews: (req, res, nex) => __awaiter(void 0, void 0, void 0, function* () {
         req.newsId = +req.params.id;
         news_schema_js_1.default.updateNews.parse(req.body);
-        const foundNews = yield prisma_js_1.prisma.news.findFirstOrThrow({
+        const foundNews = yield prisma_js_1.prisma.news.findFirst({
             where: {
                 id: +req.newsId
             }

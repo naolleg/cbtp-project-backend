@@ -8,4 +8,5 @@ const vaccine_controller_js_1 = __importDefault(require("./vaccine.controller.js
 const vaccineRoute = (0, express_1.Router)();
 vaccineRoute.get("/vaccine", vaccine_controller_js_1.default.getAll);
 vaccineRoute.post("/vaccine", vaccine_controller_js_1.default.register);
+vaccineRoute.put("/vaccine/:id", vaccine_controller_js_1.default.updatevaccine);
 exports.default = vaccineRoute;

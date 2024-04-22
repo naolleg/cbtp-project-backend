@@ -10,21 +10,21 @@ const employeeController ={
        //check if the employye exist before
        const isEmployeeExist = await prisma.user.findFirst({where:{
           OR:[
-             {email: req.body.email},
-             {phone: req.body.phone}
+             {username: req.body.username},
+            
           ]
        }});
        if(isEmployeeExist){
-          return  'Email or Phone has been registered before';
-       }
+        return res.status(404).json({ error: 'News not found' });
+    }
  
        req.body.password = bcrypt.hashSync(req.body.password, 10);
        //create the employee
-       const  newUser=await prisma.users.create({
+       const  newUser=await prisma.user.create({
           data:{
-             email: req.body.email,
+            username : req.body.username,
              password: req.body.password,
-             phone: req.body.phone,
+             : req.body.phone,
              role: req.body.role,
              healthStationId: req.body.healthStationId,
              profile:{
