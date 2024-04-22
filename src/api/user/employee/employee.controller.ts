@@ -56,27 +56,17 @@ const employeeController ={
       if(!user){
          return res.status(404).json("user not found");
       }
-      const updatedUser = await prisma.user.update({where: {id: +req.userId},data:{
-         profiles:{
-            update:{
-               firstname: req.body.firstname,
-               middlename: req.body.middlename,
-               lastname: req.body.lastname,
-               image_url: req.body.image_url,
-               gender:req.body.gender,
-               position:req.body.position
-            }
-         },
-       
-         },
-   
-   include:{
-      profiles: true,
-     
-   }
-
-});
-
+      const updatedUser = await prisma.profile.update({
+         where:{user_id: +req.userId!},
+         data:{
+            firstname: req.body.firstname,
+            middlename: req.body.middlename,
+            lastname: req.body.lastname,
+            image_url: req.body.image_url,
+            gender:req.body.gender,
+            position:req.body.position
+         }
+      });
      
       res.status(200).json(updatedUser);
    },

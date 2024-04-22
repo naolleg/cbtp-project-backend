@@ -5,6 +5,7 @@ import appRoute from './src/route/';
 import { PORT } from './src/config/secrete';
 import { prisma } from './src/config/prisma';
 import cors from 'cors'
+import { errorMiddleware } from './src/middleware/error';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors(corsOptions));
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(errorMiddleware);
 console.log("sfbsvdfvdfead");
 
 // Routes

@@ -66,26 +66,29 @@ const motherController ={
       if(!isMother){
          return res.status(404).json({ error: 'user not found' });
       }
+      bloodType: req.body.bloodType
       //update the user info
-      const updatedMother = await prisma.user.update({
+      const updatedMother = await prisma.profile.update({
          where: {
-            id: +req.mId
+            user_id: +req.mId
          },
          data:{
-            profiles:{
-               update:{
-                  firstName: req.body.firstName,
-                  middleName: req.body.middleName,
-                  lastName: req.body.lastName,
-                  imageUrl: req.body.imageUrl,
-                  sex:req.body.sex
-               }
-            },
-            motherProfile:{
-               update:{
-                  birthdate: new Date(req.body.birthdate),
-                  bloodType: req.body.bloodType,}}}
-      })
+         firstname: req.body.firstname,
+      middlename: req.body.middleName,
+      lastname: req.body.lastName,
+      image_url: req.body.imageUrl,
+      gender:req.body.sex,
+      
+         }
+      });
+      const update = await prisma.mother.update({
+         where:{
+            userid: +req.userId!
+         },
+         data:{
+      date_of_birth: (req.body.birthdate),
+         }
+      });
       res.status(200).json(updatedMother);
    
 
