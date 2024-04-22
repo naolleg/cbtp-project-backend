@@ -74,7 +74,42 @@ const newsController = {
       res.status(200).json(updatedNews);
   
      },
+     getsingleNews:async (req:Request,res: Response,next:NextFunction)=>
+      {
+    req.newsId=+req.params.id;
 
-    }
+const foundNews= await prisma.news.findFirst({
+where:{
+  id:+req.newsId
+}
 
+      });
+
+return res.status(200).json(foundNews)
+
+      },
+deleteNews:async (req:Request,res:Response,next:NextFunction)=>
+{
+  req.newsId=+req.params.id
+const foundNews= await prisma.news.findFirst
+({ 
+where:{
+  id:+req.newsId
+}
+
+});
+if(!foundNews){
+  return res.status(404).json({ error: 'News not found' });
+ }
+const deletedNews= await prisma.news.delete({
+  where:{
+    id:foundNews.id
+  }
+}
+
+);
+
+return res.status(200).json(deletedNews);
+    },
+  }
 export default newsController;

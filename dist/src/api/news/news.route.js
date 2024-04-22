@@ -9,4 +9,6 @@ const newsRoute = (0, express_1.Router)();
 newsRoute.post("/news", news_controller_js_1.default.createnew);
 newsRoute.get("/news", news_controller_js_1.default.getNews);
 newsRoute.put("/news/:id", news_controller_js_1.default.updateNews);
+newsRoute.get("/news/:id", news_controller_js_1.default.getsingleNews);
+newsRoute.delete("/news/:id", news_controller_js_1.default.deleteNews);
 exports.default = newsRoute;

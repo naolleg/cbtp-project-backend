@@ -79,6 +79,42 @@ const vaccineController = {
     res.status(200).json(updatedvaccine);
 
    },
+   getsinglevaccine: async (req:Request,res:Response,next:NextFunction)=>{
+    req.vaccineId=+req.params.id;
+
+    const foundvaccine= await prisma.vaccine.findFirst({
+    where:{
+      id:+req.vaccineId
+    }
+    
+          });
+    
+    return res.status(200).json(foundvaccine)
+   },
+   
+deletevaccine:async (req:Request,res:Response,next:NextFunction)=>
+  {
+    req.vaccineId=+req.params.id
+  const foundvaccine= await prisma.vaccine.findFirst
+  ({ 
+  where:{
+    id:+req.vaccineId
+  }
+  
+  });
+  if(!foundvaccine){
+    return res.status(404).json({ error: 'vaccine not found' });
+   }
+  const deletedvaccine= await prisma.vaccine.delete({
+    where:{
+      id:foundvaccine.id
+    }
+  }
+  
+  );
+  
+  return res.status(200).json(deletedvaccine);
+      },
 };
 
 export default vaccineController;

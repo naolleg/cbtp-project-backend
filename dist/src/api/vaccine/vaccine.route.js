@@ -9,4 +9,6 @@ const vaccineRoute = (0, express_1.Router)();
 vaccineRoute.get("/vaccine", vaccine_controller_js_1.default.getAll);
 vaccineRoute.post("/vaccine", vaccine_controller_js_1.default.register);
 vaccineRoute.put("/vaccine/:id", vaccine_controller_js_1.default.updatevaccine);
+vaccineRoute.get("/vaccine/:id", vaccine_controller_js_1.default.getsinglevaccine);
+vaccineRoute.delete("/vaccine/:id", vaccine_controller_js_1.default.deletevaccine);
 exports.default = vaccineRoute;

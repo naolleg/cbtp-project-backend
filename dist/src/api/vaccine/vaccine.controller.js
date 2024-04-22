@@ -77,5 +77,31 @@ const vaccineController = {
         });
         res.status(200).json(updatedvaccine);
     }),
+    getsinglevaccine: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        req.vaccineId = +req.params.id;
+        const foundvaccine = yield prisma_js_1.prisma.vaccine.findFirst({
+            where: {
+                id: +req.vaccineId
+            }
+        });
+        return res.status(200).json(foundvaccine);
+    }),
+    deletevaccine: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        req.vaccineId = +req.params.id;
+        const foundvaccine = yield prisma_js_1.prisma.vaccine.findFirst({
+            where: {
+                id: +req.vaccineId
+            }
+        });
+        if (!foundvaccine) {
+            return res.status(404).json({ error: 'vaccine not found' });
+        }
+        const deletedvaccine = yield prisma_js_1.prisma.vaccine.delete({
+            where: {
+                id: foundvaccine.id
+            }
+        });
+        return res.status(200).json(deletedvaccine);
+    }),
 };
 exports.default = vaccineController;

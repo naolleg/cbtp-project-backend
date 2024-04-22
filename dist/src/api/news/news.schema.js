@@ -13,5 +13,10 @@ const newsSchema = {
         description: zod_1.z.string(),
         image_url: zod_1.z.string()
     }),
+    getsingleNews: zod_1.z.object({
+        title: zod_1.z.string(),
+        description: zod_1.z.string(),
+        image_url: zod_1.z.string()
+    }),
 };
 exports.default = newsSchema;

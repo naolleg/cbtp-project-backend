@@ -71,5 +71,31 @@ const newsController = {
         });
         res.status(200).json(updatedNews);
     }),
+    getsingleNews: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        req.newsId = +req.params.id;
+        const foundNews = yield prisma_js_1.prisma.news.findFirst({
+            where: {
+                id: +req.newsId
+            }
+        });
+        return res.status(200).json(foundNews);
+    }),
+    deleteNews: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        req.newsId = +req.params.id;
+        const foundNews = yield prisma_js_1.prisma.news.findFirst({
+            where: {
+                id: +req.newsId
+            }
+        });
+        if (!foundNews) {
+            return res.status(404).json({ error: 'News not found' });
+        }
+        const deletedNews = yield prisma_js_1.prisma.news.delete({
+            where: {
+                id: foundNews.id
+            }
+        });
+        return res.status(200).json(deletedNews);
+    }),
 };
 exports.default = newsController;
