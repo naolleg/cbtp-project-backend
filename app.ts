@@ -4,11 +4,17 @@ import dotenv from 'dotenv';
 import appRoute from './src/route/';
 import { PORT } from './src/config/secrete';
 import { prisma } from './src/config/prisma';
+import cors from 'cors'
 
 const app = express();
 
 dotenv.config();
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
 
+app.use(cors(corsOptions));
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

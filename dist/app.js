@@ -8,8 +8,14 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const route_1 = __importDefault(require("./src/route/"));
 const secrete_1 = require("./src/config/secrete");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
+const corsOptions = {
+    origin: true,
+    credentials: true,
+};
+app.use((0, cors_1.default)(corsOptions));
 // Middleware
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
