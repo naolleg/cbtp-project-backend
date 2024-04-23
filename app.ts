@@ -24,11 +24,9 @@ console.log("sfbsvdfvdfead");
 
 // Routes
 app.use(appRoute);
-// app.get('/',async (req: Request,res: Response)=>{
-//   const admin = await prisma.admins.
-  
-
-// })
+app.get('/',(req,res)=>{
+  res.send("app working");
+})
 
 // Start the server
 app.listen(PORT, () => {
