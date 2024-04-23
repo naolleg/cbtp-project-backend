@@ -4,9 +4,9 @@ import errorHandler from "../../config/errorHandler.js";
 
 const newsRoute = Router();
 
-newsRoute.post("/news",errorHandler( newsController.createnew));
-newsRoute.get("/news",errorHandler( newsController.getNews));
-newsRoute.put("/news/:id",errorHandler(newsController.updateNews));
-newsRoute.get("/news/:id",errorHandler(newsController.getsingleNews));
-newsRoute.delete("/news/:id",errorHandler(newsController.deleteNews));
+newsRoute.post("/",errorHandler( newsController.createnew));
+newsRoute.get("/",errorHandler( newsController.getNews));
+newsRoute.put("/:id",errorHandler(newsController.updateNews));
+newsRoute.get("/:id",errorHandler(newsController.getsingleNews));
+newsRoute.delete("/:id",errorHandler(newsController.deleteNews));
 export default newsRoute;

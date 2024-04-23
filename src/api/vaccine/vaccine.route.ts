@@ -3,9 +3,9 @@ import vaccineController from "./vaccine.controller.js";
 import errorHandler from "../../config/errorHandler.js";
 const vaccineRoute: Router = Router();
 
-vaccineRoute.get("/vaccine", errorHandler(vaccineController.getAll));
-vaccineRoute.post("/vaccine", errorHandler(vaccineController.register));
-vaccineRoute.put("/vaccine/:id",errorHandler(vaccineController.updatevaccine));
-vaccineRoute.get("/vaccine/:id",errorHandler(vaccineController.getsinglevaccine));
-vaccineRoute.delete("/vaccine/:id",errorHandler(vaccineController.deletevaccine));
+vaccineRoute.get("/", errorHandler(vaccineController.getAll));
+vaccineRoute.post("/", errorHandler(vaccineController.register));
+vaccineRoute.put("/:id",errorHandler(vaccineController.updatevaccine));
+vaccineRoute.get("/:id",errorHandler(vaccineController.getsinglevaccine));
+vaccineRoute.delete("/:id",errorHandler(vaccineController.deletevaccine));
 export default vaccineRoute;

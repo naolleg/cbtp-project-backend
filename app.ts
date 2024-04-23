@@ -23,7 +23,7 @@ app.use(errorMiddleware);
 console.log("sfbsvdfvdfead");
 
 // Routes
-app.use(appRoute);
+app.use("/api",appRoute);
 app.get('/',(req,res)=>{
   res.send("app working");
 })

@@ -9,11 +9,11 @@ import userRouter from "../api/user/user.route";
 
 const appRouter = Router();
 appRouter.use("/admin", adminRoute)
-appRouter.use("/api",newsRoute)
-appRouter.use("/api",vaccineRoute)
-appRouter.use("/api",employeeRoute)
-appRouter.use("/api",motherRoute)
-appRouter.use("/api",userRouter)
+appRouter.use("/news",newsRoute)
+appRouter.use("/vaccine",vaccineRoute)
+appRouter.use("/employee",employeeRoute)
+appRouter.use("/mother",motherRoute)
+appRouter.use("/user",userRouter)
 export default appRouter;
 
 
