@@ -1,9 +1,10 @@
 import express from 'express';
-
+import { User ,Role,Admins} from '@prisma/client';
 declare module 'express' {
-  export interface Request {
-    //users?: User;
-    // admin?: Admins;
+  export interface Request{
+    user?:User;
+    role?: Role;
+    admins:Admins;
     // news?: News;
     // Vaccine?: Vaccine;
     // registeredBy: number;

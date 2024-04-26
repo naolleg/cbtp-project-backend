@@ -70,11 +70,13 @@ const employeeController ={
      
       res.status(200).json(updatedUser);
    },
-   delete: async (req:Request,res:Response,next:NextFunction)=>{
+   delete: async (req:Request,res:Response)=>{
       req.userId = + req.params.id;
       const user = await prisma.user.findFirst({where: {id: +req.userId}});
       if(!user){
-         // return  res.status(404).json("user not found");
+         // 
+         
+         return  res.status(404).json("user not found");
       }
       const deletedUser = await prisma.user.delete({where: {id: +req.userId}});
       res.status(200).json({
@@ -82,13 +84,13 @@ const employeeController ={
          sucess: true
       });
    },
-   getAll: async (req:Request,res:Response,next:NextFunction)=>{
+   getAll: async (req:Request,res:Response)=>{
       const employee = await prisma.user.findMany({where: {
          NOT:{role: "MOTHER"}
       }});
       res.status(200).json(employee);
    },
-   getSingle: async (req:Request,res:Response,next:NextFunction)=>{
+   getSingle: async (req:Request,res:Response)=>{
       req.userId = + req.params.id;
       const user = await prisma.user.findFirst({where: {id: +req.userId}});
       if(!user){

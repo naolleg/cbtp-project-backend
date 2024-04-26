@@ -7,7 +7,7 @@
 generator client {
   provider = "prisma-client-js"
 }
-enum role{
+enum Role{
 DOCTOR
 REGISTRER
 MOTHER
@@ -32,10 +32,17 @@ model Admins {
   email String @unique
   phone String @unique
   password String
-  activeSatatus Int
+  activeSatatus Int @default(1)
   createdAt DateTime @default(now())
+  //otp
+  otp String?
+  otpCreatedAt DateTime? @default(now())
+  otpExpiry DateTime? @default(now())
+  //
   news News[]
   vaccine Vaccine[]
+  role Role @default(ADMIN)
+  profile AdminProfiles[]
   }
 
 model News {
@@ -62,11 +69,12 @@ model Vaccine {
 model User {
   id       Int       @default(autoincrement()) @id
   username      String
-  role          role
+  role          Role
   password      String
   status        Int  @default(1)
   createdDate   DateTime @default(now())
   phonenumber   String
+  activeSatatus Int @default(1)
   employee       Employee[]
   mothers       mother[]
   profiles      Profile[]
@@ -84,6 +92,17 @@ model Profile {
   gender        GENDER
   position       POSITION?
   user         User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
+  
+}
+model AdminProfiles {
+  id Int @id @default(autoincrement())
+  adminId Int @unique
+  firstName String
+  middleName String
+  lastName String
+  imageUrl String? 
+  // References
+  admin Admins @relation(fields: [adminId], references:[id],onDelete: Cascade)
 }
 
 model Address {
