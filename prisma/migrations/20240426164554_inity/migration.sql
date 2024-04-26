@@ -4,8 +4,12 @@ CREATE TABLE `Admins` (
     `email` VARCHAR(191) NOT NULL,
     `phone` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `activeSatatus` INTEGER NOT NULL,
+    `activeSatatus` INTEGER NOT NULL DEFAULT 1,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `otp` VARCHAR(191) NULL,
+    `otpCreatedAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `otpExpiry` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `role` ENUM('DOCTOR', 'REGISTRER', 'MOTHER', 'ADMIN') NOT NULL DEFAULT 'ADMIN',
 
     UNIQUE INDEX `Admins_email_key`(`email`),
     UNIQUE INDEX `Admins_phone_key`(`phone`),
@@ -15,7 +19,7 @@ CREATE TABLE `Admins` (
 -- CreateTable
 CREATE TABLE `News` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `adminId` INTEGER NOT NULL,
+    `adminId` INTEGER NULL,
     `image_url` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
@@ -27,7 +31,7 @@ CREATE TABLE `News` (
 -- CreateTable
 CREATE TABLE `Vaccine` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `adminId` INTEGER NOT NULL,
+    `adminId` INTEGER NULL,
     `v_name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
     `ageRange` VARCHAR(191) NOT NULL,
@@ -44,6 +48,10 @@ CREATE TABLE `User` (
     `status` INTEGER NOT NULL DEFAULT 1,
     `createdDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `phonenumber` VARCHAR(191) NOT NULL,
+    `activeSatatus` INTEGER NOT NULL DEFAULT 1,
+    `otp` VARCHAR(191) NULL,
+    `otpCreatedAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `otpExpiry` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -60,6 +68,19 @@ CREATE TABLE `Profile` (
     `position` ENUM('DOCTOR', 'REGISTRER') NULL,
 
     UNIQUE INDEX `Profile_user_id_key`(`user_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `AdminProfiles` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `adminId` INTEGER NOT NULL,
+    `firstName` VARCHAR(191) NOT NULL,
+    `middleName` VARCHAR(191) NOT NULL,
+    `lastName` VARCHAR(191) NOT NULL,
+    `imageUrl` VARCHAR(191) NULL,
+
+    UNIQUE INDEX `AdminProfiles_adminId_key`(`adminId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -106,6 +127,7 @@ CREATE TABLE `Child` (
     `gender` VARCHAR(191) NOT NULL,
     `date_of_birth` DATETIME(3) NULL,
     `blood_type` VARCHAR(191) NULL,
+    `created_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -141,6 +163,9 @@ ALTER TABLE `Vaccine` ADD CONSTRAINT `Vaccine_adminId_fkey` FOREIGN KEY (`adminI
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `AdminProfiles` ADD CONSTRAINT `AdminProfiles_adminId_fkey` FOREIGN KEY (`adminId`) REFERENCES `Admins`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Address` ADD CONSTRAINT `Address_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
