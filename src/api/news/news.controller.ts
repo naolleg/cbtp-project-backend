@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import {Request, Response } from "express";
 import newsSchema from "./news.schema.js";
 import { prisma } from "../../config/prisma.js";
 import { log } from "console";
@@ -23,7 +23,7 @@ const newsController = {
    },
    
    //get public news
-   getNews:async (req:Request,res:Response,nex:NextFunction)=>{
+   getNews:async (req:Request,res:Response)=>{
     const news = await prisma.news.findMany({
       orderBy:{
         publication_date:"desc"
@@ -42,7 +42,7 @@ const newsController = {
 
    },
     //update news
-    updateNews: async (req:Request,res:Response,nex:NextFunction)=>{
+    updateNews: async (req:Request,res:Response)=>{
       
       req.newsId=+req.params.id;
       newsSchema.updateNews.parse(req.body);
@@ -74,7 +74,7 @@ const newsController = {
       res.status(200).json(updatedNews);
   
      },
-     getsingleNews:async (req:Request,res: Response,next:NextFunction)=>
+     getsingleNews:async (req:Request,res: Response)=>
       {
     req.newsId=+req.params.id;
 
@@ -88,7 +88,7 @@ where:{
 return res.status(200).json(foundNews)
 
       },
-deleteNews:async (req:Request,res:Response,next:NextFunction)=>
+deleteNews:async (req:Request,res:Response)=>
 {
   req.newsId=+req.params.id
 const foundNews= await prisma.news.findFirst

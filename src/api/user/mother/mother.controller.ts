@@ -1,5 +1,5 @@
 
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 // import motherSchema from "./mother.schema.js";
 import { prisma } from "../../../config/prisma.js";
 import userSchema from "../user.schema";
@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt'
 
 
 const motherController ={
-   register: async (req:Request,res:Response,next:NextFunction): Promise<void> =>{
+   register: async (req:Request,res:Response): Promise<void> =>{
       userSchema.registerMother.parse(req.body);
       //check if the employye exist before
       const isMotherExist = await prisma.user.findFirst({where:{
@@ -53,7 +53,7 @@ const motherController ={
    });
    res.status(201).json(newMother);
    },
-   update: async (req:Request,res:Response,next:NextFunction)=>{
+   update: async (req:Request,res:Response)=>{
       req.mId=+req.params.id;
       userSchema.updateMother.parse(req.body);
       const isMother = await prisma.user.findFirst({
@@ -93,7 +93,7 @@ const motherController ={
    
 
    },
-   delete: async (req:Request,res:Response,next:NextFunction)=>{
+   delete: async (req:Request,res:Response)=>{
       req.mId=+req.params.id;
       userSchema.updateMother.parse(req.body);
       const isMother = await prisma.user.findFirst({
@@ -116,13 +116,13 @@ const motherController ={
       });
 
    },
-   getAll: async (req:Request,res:Response,next:NextFunction)=>{
+   getAll: async (req:Request,res:Response)=>{
       const allMothers = await prisma.user.findMany({
          where: {role: "MOTHER"}
       });
       res.status(200).json(allMothers);
    },
-   getSingle: async (req:Request,res:Response,next:NextFunction)=>{
+   getSingle: async (req:Request,res:Response)=>{
       req.mId=+req.params.id;
       const isMother = await prisma.user.findFirst({
          where: {

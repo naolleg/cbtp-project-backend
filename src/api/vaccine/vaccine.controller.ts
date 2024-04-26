@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import {Request, Response } from "express";
 import { prisma } from "../../config/prisma.js";
 import vaccineSchema from "./vaccine.schema.js";
 
@@ -79,7 +79,7 @@ const vaccineController = {
     res.status(200).json(updatedvaccine);
 
    },
-   getsinglevaccine: async (req:Request,res:Response,next:NextFunction)=>{
+   getsinglevaccine: async (req:Request,res:Response)=>{
     req.vaccineId=+req.params.id;
 
     const foundvaccine= await prisma.vaccine.findFirst({
@@ -92,7 +92,7 @@ const vaccineController = {
     return res.status(200).json(foundvaccine)
    },
    
-deletevaccine:async (req:Request,res:Response,next:NextFunction)=>
+deletevaccine:async (req:Request,res:Response)=>
   {
     req.vaccineId=+req.params.id
   const foundvaccine= await prisma.vaccine.findFirst

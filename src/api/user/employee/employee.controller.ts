@@ -1,5 +1,5 @@
 
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import userSchema from "../user.schema";
 import { prisma } from "../../../config/prisma.js";
 import bcrypt from 'bcrypt'
@@ -7,7 +7,7 @@ import { POSITION } from "@prisma/client";
 
 
 const employeeController ={
-    register: async (req:Request,res:Response,next:NextFunction)=>{
+    register: async (req:Request,res:Response)=>{
        userSchema.registerEmployee.parse(req.body);
        //check if the employye exist before
        const isEmployeeExist = await prisma.user.findFirst({where:{
@@ -49,7 +49,7 @@ const employeeController ={
     });
     res.status(201).json(newUser);
     },
-    update: async (req:Request,res:Response,next:NextFunction)=>{
+    update: async (req:Request,res:Response)=>{
       req.userId = + req.params.id;
       userSchema.updateEmployee.parse(req.body);
       const user = await prisma.user.findFirst({where: {id: +req.userId}});

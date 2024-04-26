@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../config/prisma";
 import userSchema from "./user.schema.js";
@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { SECRET } from "../../config/secrete";
 
 const usersController = {
-  loginUser: async (req: Request, res: Response, next: NextFunction) => {
+  loginUser: async (req: Request, res: Response) => {
     try {
       userSchema.login.parse(req.body);
       console.log(req.body);
@@ -48,7 +48,7 @@ const usersController = {
       throw (error);
     }
   },
-  myInfo: async (req: Request, res: Response, next: NextFunction) => {
+  myInfo: async (req: Request, res: Response) => {
     const user = await prisma.user.findFirst({
       where: { id:req.userId },
       include: {

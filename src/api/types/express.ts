@@ -2,7 +2,7 @@ import express from 'express';
 
 declare module 'express' {
   export interface Request {
-    // user?: User;
+    //users?: User;
     // admin?: Admins;
     // news?: News;
     // Vaccine?: Vaccine;
