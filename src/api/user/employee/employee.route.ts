@@ -3,7 +3,7 @@ import employeeController from "../employee/employee.controller";
 import errorHandler from "../../../config/errorHandler";
 const employeeRoute:Router = Router();
 
-employeeRoute.post('/',errorHandler(employeeController.register));
+employeeRoute.post('/register',errorHandler(employeeController.register));
 employeeRoute.put('/:id',errorHandler(employeeController.update));
 employeeRoute.delete('/:id',errorHandler(employeeController.delete));
 employeeRoute.get('/',errorHandler(employeeController.getAll));

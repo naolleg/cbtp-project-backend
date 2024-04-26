@@ -47,7 +47,7 @@ model Admins {
 
 model News {
   id            Int  @id    @default(autoincrement())
-  adminId Int
+  adminId Int?
   image_url          String
   title              String
   description        String
@@ -58,7 +58,7 @@ model News {
 
 model Vaccine {
   id    Int      @default(autoincrement()) @id
-  adminId Int
+  adminId        Int?
   v_name        String
   description   String?
   ageRange String

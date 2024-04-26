@@ -3,7 +3,7 @@ import motherController from "../mother/mother.controller";
 import errorHandler from "../../../config/errorHandler";
 const motherRoute:Router = Router();
 
-motherRoute.post('/',errorHandler(motherController.register));
+motherRoute.post('/register',errorHandler(motherController.register));
 motherRoute.put('/:id',errorHandler(motherController.update));
 motherRoute.delete('/:id',errorHandler(motherController.delete));
 motherRoute.get('/',errorHandler(motherController.getAll));

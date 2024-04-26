@@ -4,6 +4,7 @@ import userSchema from "../user.schema";
 import { prisma } from "../../../config/prisma.js";
 import bcrypt from 'bcrypt'
 import { POSITION } from "@prisma/client";
+import { create } from "axios";
 
 
 const employeeController ={
@@ -38,6 +39,12 @@ const employeeController ={
                    position:req.body.position
                 }
              },
+             employee:{
+               create:{
+                  email:req.body.email,
+               
+               }
+             }
            
              },
        

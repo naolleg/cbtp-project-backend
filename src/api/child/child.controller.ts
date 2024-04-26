@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import childSchema from "./child.schema";
 import { prisma } from "../../config/prisma.js";
+import { date } from "zod";
 
 
 const childController ={
@@ -8,7 +9,7 @@ const childController ={
     childSchema.registerChild.parse(req.body);
     //check if mother exist 
     const isMotherExist = await prisma.mother.findFirst({
-      where: {id: req.body.motherId}
+      where: {id: req.body.mother_id}
     });
     if(!isMotherExist){
       return res.status(404).json({ error: 'mother not found' });
@@ -17,13 +18,12 @@ const childController ={
     const newchild = await prisma.child.create({
       data:{
         
-         date_of_birth: new Date(req.body.birthdate),
+         date_of_birth: req.body.date_of_birth,
          blood_type: req.body.blood_type,
          firstname: req.body.firstname,
          middlename: req.body.middlename,
          lastname: req.body.lastname,
          mother_id: req.body.mother_id,
-         created_time: new Date(),
          gender:req.body.gender
       }
     });
