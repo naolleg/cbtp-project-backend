@@ -75,6 +75,11 @@ model User {
   createdDate   DateTime @default(now())
   phonenumber   String
   activeSatatus Int @default(1)
+  //OTP
+  otp String?
+  otpCreatedAt DateTime? @default(now())
+  otpExpiry DateTime? @default(now())
+
   employee       Employee[]
   mothers       mother[]
   profiles      Profile[]
@@ -142,6 +147,7 @@ model Child {
   gender         String
   date_of_birth  DateTime?
   blood_type     String?
+  created_time    DateTime @default(now())
   mother         mother?  @relation(fields: [mother_id], references: [id])
   vaccinations   Vaccination[]
 }

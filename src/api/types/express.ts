@@ -13,6 +13,6 @@ declare module 'express' {
     vaccineId: number;
     // hsId: number;
     mId: number;
-    // childId: number;
+    childId: number;
   }
 }

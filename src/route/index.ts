@@ -5,9 +5,11 @@ import vaccineRoute from "../api/vaccine/vaccine.route";
 import motherRoute from "../api/user/mother/mother.route";
 import { Router } from "express";
 import userRouter from "../api/user/user.route";
+import childRouter from "../api/child/child.route";
 // Middleware function
 
 const appRouter = Router();
+appRouter.use("/child",childRouter)
 appRouter.use("/admin", adminRoute)
 appRouter.use("/news",newsRoute)
 appRouter.use("/vaccine",vaccineRoute)

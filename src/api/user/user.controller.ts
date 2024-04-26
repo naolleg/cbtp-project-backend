@@ -65,6 +65,101 @@ const usersController = {
     });
     res.status(200).json(user);
   },
+  changePassword: async (req: Request, res: Response) => {
+    //check if user exist
+    const isUser = await prisma.user.findFirst({
+      where: { id: req.user!.id },
+    });
+    if (!isUser) {
+      return res.status(401).json({
+        message: "user not found",
+      });
+    }
+    //check if the old passwod is correct
+    const isMatch = await bcrypt.compareSync(
+      req.body.oldPassword,
+      isUser!.password
+    );
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "password does not match",
+      });
+    }
+    req.body.newPasswod = bcrypt.hashSync(req.body.newPasswod, 10);
+    //update password
+    const updatedPassword = await prisma.user.update({
+      where: { id: req.user!.id },
+      data: { password: req.body.newPasswod },
+    });
+    res.status(200).json(updatedPassword);
+  },
+
+  delete: async (req: Request, res: Response) => {
+    req.userId = +req.params.id;
+    // check if user exist usind id and role
+    const isUserExist = await prisma.user.findFirst({
+      where: {
+        AND: [{ id: +req.userId }, { role: req.body.role }],
+      },
+    });
+    if (!isUserExist) {
+      return res.status(401).json({
+        message: "user does not exist",
+      });
+    }
+    //start deleting
+    const isUserDeleted = await prisma.user.delete({
+      where: {
+        id: +req.userId,
+      },
+    });
+    res.status(200).json({
+      message: "sucessfully deleted",
+      sucess: true,
+    });
+  },
+  confirmOtp: async (req: Request, res: Response) => {
+    const user = await prisma.user.findFirst({
+      where: { id: +req.user!.id },
+      include: {
+        profiles: true,
+      },
+    });
+    if (!user) {
+      return res.status(401).json({
+        message: "user does not found",
+      });
+    }
+    const { otp } = req.body;
+    if (otp != user.otp) {
+      return res.status(401).json({
+        message: "Invalid OTP",
+      });
+    }
+   
+    const udpadteUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        otp: "000000",
+        otpCreatedAt: null,
+        otpExpiry: null,
+      },
+    });
+    // Create token
+    const payload = {
+      id: user.id,
+      role: user.role,
+      firstname: user.username
+    };
+    const token = jwt.sign(payload, SECRET!);
+    return res.status(200).json({
+      message: "Otp confirmed",
+      data: udpadteUser,
+      token,
+    });
+  },
 };
 
 export default usersController;
