@@ -6,6 +6,9 @@ import userSchema from "../user.schema";
 
 
 import bcrypt from 'bcrypt'
+import { generatePassword } from "../../../../util/otp.js";
+import { sendSmd } from "../../../../util/m.js";
+import { log } from "console";
 
 
 const motherController ={
@@ -20,7 +23,8 @@ const motherController ={
       if(isMotherExist){
           res.status(404).json({ error: 'user exists' });
       }
-      req.body.password = bcrypt.hashSync(req.body.password, 10);
+      const password =  generatePassword();
+      req.body.password= bcrypt.hashSync(password, 10);
       //create the employee
       const newMother=await prisma.user.create({
          data:{
@@ -51,6 +55,11 @@ const motherController ={
       }
    
    });
+   const phone  = req.body.phonenumbe;
+   const message = `wellcome mr. ${req.body.firstName} your password is ${password}`;
+  const re = await sendSmd(phone,message);
+  console.log(re);
+  
    res.status(201).json(newMother);
    },
    update: async (req:Request,res:Response)=>{
@@ -118,7 +127,11 @@ const motherController ={
    },
    getAll: async (req:Request,res:Response)=>{
       const allMothers = await prisma.user.findMany({
-         where: {role: "MOTHER"}
+         where: {role: "MOTHER"},
+         include:{
+            profiles:true
+         },
+         
       });
       res.status(200).json(allMothers);
    },

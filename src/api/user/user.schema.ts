@@ -15,7 +15,8 @@ login: z.object({
         gender: z.enum(['MALE', 'FEMALE']),
         image_url: z.string(),
         //manager, reception and hp related
-        position: z.string()
+        position: z.string(),
+        email:z.string()
         
  }),
  updateEmployee : z.object({
@@ -28,13 +29,14 @@ login: z.object({
     gender: z.enum(['MALE', 'FEMALE']),
     image_url: z.string(),
     //manager, reception and hp related
-    position: z.string()
-    
+    position: z.string(),
+    email:z.string()
+        
 }),
 registerMother: z.object({
 
     phonenumber: z.string().max(14),
-    password: z.string().min(8).max(20),
+    // password: z.string().min(8).max(20),
    
     firstname: z.string(),
     middlename: z.string(),

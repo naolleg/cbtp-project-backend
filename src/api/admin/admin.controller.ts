@@ -35,6 +35,7 @@ registerAdmin:async (req:Request,res:Response)=>{
           email: req.body.email,
           phone: req.body.phone,
           password: password,
+          role:"ADMIN",
           otp: otp,
           profile: {
              create: {
@@ -48,8 +49,11 @@ registerAdmin:async (req:Request,res:Response)=>{
        include: {
           profile: true
        }
+       
     });
-}, loginAdmin: async (req: Request, res: Response) => {
+    return res.json(newAdmin);
+},
+ loginAdmin: async (req: Request, res: Response) => {
     adminSchema.login.parse(req.body);
     const admin = await prisma.admins.findFirst({ where: { email: req.body.email } });
     if (!admin) {

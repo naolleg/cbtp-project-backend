@@ -93,7 +93,12 @@ email:req.body.email,
    getAll: async (req:Request,res:Response)=>{
       const employee = await prisma.user.findMany({where: {
          NOT:{role: "MOTHER"}
-      }});
+      },
+   include:{
+      profiles:true
+   },
+   
+   });
       res.status(200).json(employee);
    },
    getSingle: async (req:Request,res:Response)=>{
