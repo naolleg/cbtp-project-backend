@@ -9,11 +9,28 @@ import bcrypt from 'bcrypt'
 import { generatePassword } from "../../../../util/otp.js";
 import { sendSmd } from "../../../../util/m.js";
 import { log } from "console";
+import { BASE_URL } from "../../../config/secrete.js";
 
 
 const motherController ={
-   register: async (req:Request,res:Response): Promise<void> =>{
+   register: async (req:Request,res:Response)=>{
+      let dataUrl = null;
       userSchema.registerMother.parse(req.body);
+          // Check if content or attachments are provided
+    if (
+      (!req.files.attachments || req.files.attachments.length === 0)
+    ) {
+      return res.status(403).json({
+        message: "Content or attachments are required",
+      });
+    }
+        // Prepare attachments
+        const messageFiles = req.files?.attachments?.map((attachment: any) => ({
+          url: attachment.filename,
+        }));
+    const url = `${BASE_URL}images/${messageFiles[0].url}`;
+    dataUrl = url;
+      
       //check if the employye exist before
       const isMotherExist = await prisma.user.findFirst({where:{
          OR:[

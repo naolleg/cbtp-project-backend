@@ -10,7 +10,7 @@ const adminSchema = {
       firstName: z.string(),
       middleName: z.string(),
       lastName: z.string(),
-      imageUrl: z.string(),
+      
       
    }),
    //signup schema

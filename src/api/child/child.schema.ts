@@ -4,7 +4,7 @@ import { z } from "zod";
 const childSchema ={
     //register child
     registerChild: z.object({
-      date_of_birth: z.date(),
+      date_of_birth: z.string(),
       blood_type: z.string(),
       firstname: z.string(),
       middlename: z.string(),

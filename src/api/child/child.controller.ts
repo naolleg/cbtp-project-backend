@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import childSchema from "./child.schema";
 import { prisma } from "../../config/prisma.js";
-import { date } from "zod";
+
 
 
 const childController ={
@@ -16,7 +16,8 @@ const childController ={
     }
     // start rgistering
     const newchild = await prisma.child.create({
-      data:{
+      data:
+      {
         
          date_of_birth: req.body.date_of_birth,
          blood_type: req.body.blood_type,

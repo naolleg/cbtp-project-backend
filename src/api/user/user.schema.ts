@@ -13,7 +13,7 @@ login: z.object({
         middlename: z.string(),
         lastname: z.string(),
         gender: z.enum(['MALE', 'FEMALE']),
-        image_url: z.string(),
+       
         //manager, reception and hp related
         position: z.string(),
         email:z.string()

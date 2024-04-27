@@ -4,10 +4,27 @@ import userSchema from "../user.schema";
 import { prisma } from "../../../config/prisma.js";
 import bcrypt from 'bcrypt'
 import { POSITION } from "@prisma/client";
+import { BASE_URL } from "../../../config/secrete";
 
 
 const employeeController ={
     register: async (req:Request,res:Response)=>{
+      let dataUrl = null;
+      userSchema.registerEmployee.parse(req.body);
+          // Check if content or attachments are provided
+    if (
+      (!req.files.attachments || req.files.attachments.length === 0)
+    ) {
+      return res.status(403).json({
+        message: "Content or attachments are required",
+      });
+    }
+        // Prepare attachments
+        const messageFiles = req.files?.attachments?.map((attachment: any) => ({
+          url: attachment.filename,
+        }));
+    const url = `${BASE_URL}images/${messageFiles[0].url}`;
+    dataUrl = url;
        userSchema.registerEmployee.parse(req.body);
        //check if the employye exist before
        const isEmployeeExist = await prisma.user.findFirst({where:{

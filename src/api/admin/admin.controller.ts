@@ -3,11 +3,10 @@ import {prisma} from '../../config/prisma.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import {Request, Response } from 'express'
-import { SECRET } from '../../config/secrete.js'
+import { BASE_URL, SECRET } from '../../config/secrete.js'
 import { STATUS_CODES } from 'http'
 import adminSchema from './adminschema.js'
 import { generateOTP } from '../../../util/otp.js';
-import { error } from 'console'
 import { sendEmail } from '../../../util/emailSender.js'
 
 const adminController = {
@@ -16,7 +15,23 @@ const adminController = {
 // },};
 // export default adminController;
 registerAdmin:async (req:Request,res:Response)=>{
-    adminSchema.registerAdmin.parse(req.body);
+   let dataUrl = null;
+   adminSchema.registerAdmin.parse(req.body);
+       // Check if content or attachments are provided
+ if (
+   (!req.files.attachments || req.files.attachments.length === 0)
+ ) {
+   return res.status(403).json({
+     message: "Content or attachments are required",
+   });
+ }
+     // Prepare attachments
+     const messageFiles = req.files?.attachments?.map((attachment: any) => ({
+       url: attachment.filename,
+     }));
+ const url = `${BASE_URL}images/${messageFiles[0].url}`;
+ dataUrl = url;
+   
     //check if the email or phone used befor
     const isAdminExist= await prisma.admins.findFirst({where:{
        OR:[
