@@ -14,5 +14,6 @@ declare module 'express' {
     // hsId: number;
     mId: number;
     childId: number;
+    files: any;
   }
 }

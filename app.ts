@@ -20,9 +20,11 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(errorMiddleware);
-console.log("sfbsvdfvdfead");
+app.use(express.static("public"));
+
 
 // Routes
+
 app.use("/api",appRoute);
 app.get('/',(req,res)=>{
   res.send("app working");
@@ -30,5 +32,5 @@ app.get('/',(req,res)=>{
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`Server listening on port http://localhost:${PORT}`);
 });

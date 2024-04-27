@@ -2,19 +2,34 @@ import {Request, Response } from "express";
 import newsSchema from "./news.schema.js";
 import { prisma } from "../../config/prisma.js";
 import { log } from "console";
+import { BASE_URL } from "../../config/secrete.js";
 
 
 const newsController = {
   //create news
    createnew: async (req:Request,res:Response)=>{
+    let dataUrl = null;
       newsSchema.createnew.parse(req.body);
-      console.log("assds");
+          // Check if content or attachments are provided
+    if (
+      (!req.files.attachments || req.files.attachments.length === 0)
+    ) {
+      return res.status(403).json({
+        message: "Content or attachments are required",
+      });
+    }
+        // Prepare attachments
+        const messageFiles = req.files?.attachments?.map((attachment: any) => ({
+          url: attachment.filename,
+        }));
+    const url = `${BASE_URL}images/${messageFiles[0].url}`;
+    dataUrl = url;
       const theNewNews = await prisma.news.create({
         data: {
           title: req.body.title,
           description: req.body.description,
           publication_date: new Date(),
-          image_url: req.body.image_url,
+          image_url: url,
           adminId: req.body.adminId
         }
        
