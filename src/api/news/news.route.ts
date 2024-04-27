@@ -5,9 +5,9 @@ import { adminAuth, userAuth } from "../../middleware/auth.js";
 
 const newsRoute = Router();
 
-newsRoute.post("/",[adminAuth],errorHandler( newsController.createnew));
+newsRoute.post("/",errorHandler( newsController.createnew));
 newsRoute.get("/",errorHandler( newsController.getNews));
-newsRoute.put("/:id",[adminAuth],errorHandler(newsController.updateNews));
+newsRoute.put("/:id",errorHandler(newsController.updateNews));
 newsRoute.get("/:id",errorHandler(newsController.getsingleNews));
-newsRoute.delete("/:id",[adminAuth],errorHandler(newsController.deleteNews));
+newsRoute.delete("/:id",errorHandler(newsController.deleteNews));
 export default newsRoute;

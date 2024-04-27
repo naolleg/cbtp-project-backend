@@ -4,11 +4,11 @@ import errorHandler from "../../../config/errorHandler";
 import { isEmployee, isRegistrer } from "../../../middleware/auth";
 const motherRoute:Router = Router();
 
-motherRoute.post('/register',[isRegistrer],errorHandler(motherController.register));
-motherRoute.put('/:id',[isRegistrer],errorHandler(motherController.update));
-motherRoute.delete('/:id',[isRegistrer],errorHandler(motherController.delete));
-motherRoute.get('/',[isRegistrer],errorHandler(motherController.getAll));
-motherRoute.get('/:id',[isEmployee,isRegistrer],errorHandler(motherController.getSingle));
+motherRoute.post('/register',errorHandler(motherController.register));
+motherRoute.put('/:id',errorHandler(motherController.update));
+motherRoute.delete('/:id',errorHandler(motherController.delete));
+motherRoute.get('/',errorHandler(motherController.getAll));
+motherRoute.get('/:id',errorHandler(motherController.getSingle));
 
 
 export default motherRoute;

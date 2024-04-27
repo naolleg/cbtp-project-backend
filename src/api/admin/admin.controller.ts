@@ -8,6 +8,7 @@ import { STATUS_CODES } from 'http'
 import adminSchema from './adminschema.js'
 import { generateOTP } from '../../../util/otp.js';
 import { error } from 'console'
+import { sendEmail } from '../../../util/emailSender.js'
 
 const adminController = {
 //     loginAdmin: async (req: Request, res: Response, next: NextFunction) => {
@@ -30,6 +31,12 @@ registerAdmin:async (req:Request,res:Response)=>{
     // create the admin
     const otp= generateOTP();
     const password = bcrypt.hashSync(req.body.password, 10);
+    try {
+      // Send the OTP via email
+      const emailResult = await sendEmail(req.body.email, otp);
+      if (!emailResult.success) {
+        return res.status(500).json({ error: 'Failed to send email' });
+      }
     const newAdmin = await prisma.admins.create({
        data: {
           email: req.body.email,
@@ -52,7 +59,9 @@ registerAdmin:async (req:Request,res:Response)=>{
        
     });
     return res.json(newAdmin);
-},
+}
+catch(error){
+throw error}},
  loginAdmin: async (req: Request, res: Response) => {
     adminSchema.login.parse(req.body);
     const admin = await prisma.admins.findFirst({ where: { email: req.body.email } });

@@ -6,7 +6,7 @@ import { adminAuth } from "../../middleware/auth.js";
 
 //routes
 adminRouter.post("/login",errorHandler(adminController.loginAdmin) );
-adminRouter.post("/",[adminAuth],errorHandler(adminController.registerAdmin));
+adminRouter.post("/",errorHandler(adminController.registerAdmin));
 adminRouter.get("/",[adminAuth],errorHandler(adminController.myInfo));
 
 export default adminRouter;
