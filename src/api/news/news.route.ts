@@ -8,6 +8,7 @@ const newsRoute = Router();
 
 newsRoute.post("/post",upload.fields([{ name: "attachments", maxCount: 5 }]),errorHandler( newsController.createnew));
 newsRoute.get("/",errorHandler( newsController.getNews));
+
 newsRoute.put("/:id",errorHandler(newsController.updateNews));
 newsRoute.get("/:id",errorHandler(newsController.getsingleNews));
 newsRoute.delete("/:id",errorHandler(newsController.deleteNews));

@@ -30,11 +30,15 @@ const newsController = {
           description: req.body.description,
           publication_date: new Date(),
           image_url: url,
-          adminId: req.body.adminId
+          adminId: req.body.adminId,
         }
        
        });
-      res.status(200).json(theNewNews);
+      res.status(200).json({
+        message: "News created successfully",
+        success: true,
+        data:theNewNews
+      });
    },
    
    //get public news

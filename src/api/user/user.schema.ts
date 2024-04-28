@@ -42,7 +42,7 @@ registerMother: z.object({
     middlename: z.string(),
     lastname: z.string(),
      gender: z.enum(['MALE', 'FEMALE']),
-    image_url: z.string(),
+    // image_url: z.string(),
     //mother related
     date_of_birth : z.string(),
 

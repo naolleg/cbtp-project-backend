@@ -9,6 +9,7 @@ const employeeController = {
   register: async (req: Request, res: Response) => {
     let dataUrl = null;
     userSchema.registerEmployee.parse(req.body);
+    console.log(req.files)
     // Check if content or attachments are provided
     if (!req.files.attachments || req.files.attachments.length === 0) {
       return res.status(403).json({
@@ -20,6 +21,7 @@ const employeeController = {
     const messageFiles = req.files?.attachments?.map((attachment: any) => ({
       url: attachment.filename,
     }));
+    
     const url = `${BASE_URL}images/${messageFiles[0].url}`;
     dataUrl = url;
     userSchema.registerEmployee.parse(req.body);

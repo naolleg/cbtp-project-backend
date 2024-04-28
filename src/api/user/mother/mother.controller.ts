@@ -3,8 +3,6 @@ import { Request, Response } from "express";
 // import motherSchema from "./mother.schema.js";
 import { prisma } from "../../../config/prisma.js";
 import userSchema from "../user.schema";
-
-
 import bcrypt from 'bcrypt'
 import { generatePassword } from "../../../../util/otp.js";
 import { sendSmd } from "../../../../util/m.js";
@@ -15,69 +13,74 @@ import { BASE_URL } from "../../../config/secrete.js";
 const motherController ={
    register: async (req:Request,res:Response)=>{
       let dataUrl = null;
-      userSchema.registerMother.parse(req.body);
-          // Check if content or attachments are provided
-    if (
-      (!req.files.attachments || req.files.attachments.length === 0)
-    ) {
-      return res.status(403).json({
-        message: "Content or attachments are required",
-      });
-    }
-        // Prepare attachments
-        const messageFiles = req.files?.attachments?.map((attachment: any) => ({
-          url: attachment.filename,
-        }));
-    const url = `${BASE_URL}images/${messageFiles[0].url}`;
-    dataUrl = url;
+      // userSchema.registerMother.parse(req.body);
+      console.log(req.body);
+      console.log(req.files)
       
-      //check if the employye exist before
-      const isMotherExist = await prisma.user.findFirst({where:{
-         OR:[
-            {username: req.body.username},
-         ]
-      }});
-      if(isMotherExist){
-          res.status(404).json({ error: 'user exists' });
-      }
-      const password =  generatePassword();
-      req.body.password= bcrypt.hashSync(password, 10);
-      //create the employee
-      const newMother=await prisma.user.create({
-         data:{
-            username : req.body.username,
-            password: req.body.password,
-            role: "MOTHER",
-            phonenumber:req.body.phonenumber,
-            profiles:{
-                  create:{
-                     firstname: req.body.firstname,
-                     middlename: req.body.middlename,
-                     lastname: req.body.lastname,
-                     image_url: req.body.image_url,
-                     gender:req.body.gender,
-                     position:req.body.position
-                  }
-            },
-            mothers:{
-               create:{
-                  date_of_birth: req.body.date_of_birth,
+      
+//           // Check if content or attachments are provided
+//     if (
+//       (!req.files.attachments || req.files.attachments.length === 0)
+//     ) {
+//       return res.status(403).json({
+//         message: "Content or attachments are required",
+//       });
+//     }
+//         // Prepare attachments
+//         const messageFiles = req.files?.attachments?.map((attachment: any) => ({
+//           url: attachment.filename,
+//         }));
+//     const url = `${BASE_URL}images/${messageFiles[0].url}`;
+//     dataUrl = url;
+      
+//       //check if the employye exist before
+//       const isMotherExist = await prisma.user.findFirst({where:{
+//          OR:[
+//             {username: req.body.username},
+//          ]
+//       }});
+//       if(isMotherExist){
+//           res.status(404).json({ error: 'user exists' });
+//       }
+//       const password =  generatePassword();
+//       req.body.password= bcrypt.hashSync(password, 10);
+//       //create the employee
+//       const newMother=await prisma.user.create({
+//          data:{
+//             username : req.body.username,
+//             password: req.body.password,
+//             role: "MOTHER",
+
+//             phonenumber:req.body.phonenumber,
+//             profiles:{
+//                   create:{
+//                      firstname: req.body.firstname,
+//                      middlename: req.body.middlename,
+//                      lastname: req.body.lastname,
+//                      image_url: req.body.image_url,
+//                      gender:req.body.gender,
+//                      position:req.body.position
+//                   }
+//             },
+//             mothers:{
+//                create:{
+//                   date_of_birth: req.body.date_of_birth,
                 
-               }
-            }
-      },
-      include:{
-         profiles: true,
-         mothers:true
-      }
+//                }
+//             }
+//       },
+//       include:{
+//          profiles: true,
+//          mothers:true
+//       }
    
-   });
-   const phone  = req.body.phonenumbe;
-   const message = `wellcome mr. ${req.body.firstName} your password is ${password}`;
-  const re = await sendSmd(phone,message);
-  console.log(re);
+//    });
+//    const phone  = req.body.phonenumbe;
+//    const message = `wellcome mr. ${req.body.firstName} your password is ${password}`;
+//   const re = await sendSmd(phone,message);
+//   console.log(re);
   
-   res.status(201).json(newMother);
+//    res.status(201).json(newMother);
    },
    update: async (req:Request,res:Response)=>{
       req.mId=+req.params.id;
