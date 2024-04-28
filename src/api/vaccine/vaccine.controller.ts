@@ -10,6 +10,7 @@ const vaccineController = {
    
       
       vaccineSchema.register.parse(req.body);
+
       // Check if the vaccine already exists
       // const vaccine = await prisma.vaccine.findFirst({
       //   where: {
@@ -35,7 +36,11 @@ const vaccineController = {
 
          }
     });
-      res.status(200).json(newVaccine);
+      res.status(200).json({
+        message: "vaccine created successfully",
+        data: newVaccine,
+        success:true
+      });
     // } catch (error) {
     // throw error }
   },
