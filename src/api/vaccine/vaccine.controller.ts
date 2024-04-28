@@ -22,7 +22,7 @@ const vaccineController = {
       // });
 
       // if (vaccine) {
-      //   return res.status(401).json({
+      //   return res.status(401).json({success:false
       //     message: "vaccine already exists"
       //   });
       // }
@@ -36,11 +36,16 @@ const vaccineController = {
 
          }
     });
+<<<<<<< HEAD
+      res.status(200).json({ success: true,
+        message: "vaccine registered",newVaccine});
+=======
       res.status(200).json({
         message: "vaccine created successfully",
         data: newVaccine,
         success:true
       });
+>>>>>>> 392c853cb99f58e19d51c36b692513139062dab1
     // } catch (error) {
     // throw error }
   },
@@ -48,7 +53,8 @@ const vaccineController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const vaccines = await prisma.vaccine.findMany();
-      res.status(200).json(vaccines);
+      res.status(200).json({ success: true,
+        message: "vaccine found succesfully",vaccines});
     } catch (error) {
       throw(error);
     }
@@ -66,7 +72,12 @@ const vaccineController = {
     });
   
     if (!foundvaccine) {
+<<<<<<< HEAD
+      return res.status(404).json({success: false,
+        message: 'vaccine not found' });
+=======
       return res.status(404).json({ message: 'vaccine not found',success: false });
+>>>>>>> 392c853cb99f58e19d51c36b692513139062dab1
     }
 
     // Update the news using req.body
@@ -82,11 +93,16 @@ const vaccineController = {
         id : foundvaccine.id
       }
     });
+<<<<<<< HEAD
+    res.status(200).json({ success: true,
+      message: "vaccine updated",updatedvaccine});
+=======
     res.status(200).json({
       message: "vaccine updated successfully",
       data: updatedvaccine,
       success:true
     });
+>>>>>>> 392c853cb99f58e19d51c36b692513139062dab1
 
    },
    getsinglevaccine: async (req:Request,res:Response)=>{
@@ -99,7 +115,8 @@ const vaccineController = {
     
           });
     
-    return res.status(200).json(foundvaccine)
+    return res.status(200).json({ success: true,
+      message: "vaccine found successfully",foundvaccine})
    },
    
 deletevaccine:async (req:Request,res:Response)=>
@@ -113,7 +130,8 @@ deletevaccine:async (req:Request,res:Response)=>
   
   });
   if(!foundvaccine){
-    return res.status(404).json({ error: 'vaccine not found' });
+    return res.status(404).json({success: false,
+      message: 'vaccine not found' });
    }
   const deletedvaccine= await prisma.vaccine.delete({
     where:{
@@ -123,7 +141,8 @@ deletevaccine:async (req:Request,res:Response)=>
   
   );
   
-  return res.status(200).json(deletedvaccine);
+  return res.status(200).json({ success: true,
+    message: "vaccine deleted",deletedvaccine});
       },
 };
 

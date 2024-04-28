@@ -10,6 +10,9 @@ export const sendSmd =async (to: string,message:string)=>{
         to: to,
         message: message
     }
+  
+    console.log(formData);
+    
     try {
         const response = await axios.post(`${process.env.PHONE}`, formData, {
           headers: {

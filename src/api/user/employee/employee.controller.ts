@@ -77,7 +77,7 @@ const employeeController = {
     userSchema.updateEmployee.parse(req.body);
     const user = await prisma.user.findFirst({ where: { id: +req.userId } });
     if (!user) {
-      return res.status(404).json("user not found");
+      return res.status(404).json({success: false,message: "user not found"});
     }
     const updatedUser = await prisma.profile.update({
       where: { user_id: +req.userId! },
@@ -91,7 +91,9 @@ const employeeController = {
       },
     });
 
-    res.status(200).json(updatedUser);
+    res.status(200).json({
+      success: true,
+      message: "updated successfully",updatedUser});
   },
   delete: async (req: Request, res: Response) => {
     req.userId = +req.params.id;
@@ -99,7 +101,7 @@ const employeeController = {
     if (!user) {
       //
 
-      return res.status(404).json("user not found");
+      return res.status(404).json({success: false,message: "user not found"});
     }
     const deletedUser = await prisma.user.delete({
       where: { id: +req.userId },
@@ -118,15 +120,19 @@ const employeeController = {
         profiles: true,
       },
     });
-    res.status(200).json(employee);
+    res.status(200).json({
+      success: true,
+      message: "found successfully",employee});
   },
   getSingle: async (req: Request, res: Response) => {
     req.userId = +req.params.id;
     const user = await prisma.user.findFirst({ where: { id: +req.userId } });
     if (!user) {
-      return res.status(404).json("user not found");
+      return res.status(404).json({success: false,message: "user not found"});
     }
-    res.status(200).json(user);
+    res.status(200).json({
+      success: true,
+      message: "found successfully",user});
   },
 };
 export default employeeController;

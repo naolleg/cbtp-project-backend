@@ -14,7 +14,7 @@ const newsController = {
     if (
       (!req.files.attachments || req.files.attachments.length === 0)
     ) {
-      return res.status(403).json({
+      return res.status(403).json({success:false,
         message: "Content or attachments are required",
       });
     }
@@ -57,7 +57,8 @@ const newsController = {
     
     });
     
-    return res.status(200).json(news);
+    return res.status(200).json({ success: true,
+      message: "registered successfully",news});
 
    },
     //update news
@@ -73,7 +74,9 @@ const newsController = {
       });
     
       if (!foundNews) {
-        return res.status(404).json({ error: 'News not found' });
+        return res.status(404).json({
+          success: false,
+          message:  'News not found' });
       }
 
       // Update the news using req.body
@@ -90,7 +93,8 @@ const newsController = {
           id : foundNews.id
         }
       });
-      res.status(200).json(updatedNews);
+      res.status(200).json({ success: true,
+        message: "updated successfully",updatedNews});
   
      },
      getsingleNews:async (req:Request,res: Response)=>
@@ -104,7 +108,8 @@ where:{
 
       });
 
-return res.status(200).json(foundNews)
+return res.status(200).json({ success: true,
+  message: "found successfully",foundNews})
 
       },
 deleteNews:async (req:Request,res:Response)=>
@@ -118,7 +123,9 @@ where:{
 
 });
 if(!foundNews){
-  return res.status(404).json({ error: 'News not found' });
+  return res.status(404).json({
+    success: false,
+    message:  'News not found' });
  }
 const deletedNews= await prisma.news.delete({
   where:{
@@ -128,7 +135,8 @@ const deletedNews= await prisma.news.delete({
 
 );
 
-return res.status(200).json(deletedNews);
+return res.status(200).json({ success: true,
+  message: "deleted successfully",deletedNews});
     },
   }
 export default newsController;
