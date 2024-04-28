@@ -8,31 +8,47 @@ const childController ={
    register: async (req:Request,res:Response)=>{
     childSchema.registerChild.parse(req.body);
     //check if mother exist 
-    const isMotherExist = await prisma.mother.findFirst({
-      where: {id: req.body.mother_id}
+    console.log(req.body);
+    const isMotherExist = await prisma.user.findFirst({
+      where: {
+         AND:[
+            {id: +req.body.mother_id},
+            {role:"MOTHER"}
+         ]
+      },
+      include: {
+         mothers: true
+      }
     });
-    if(!isMotherExist){
-      return res.status(404).json({
-         success: false,
-         message: 'mother not found' });
+  
+    if(!isMotherExist || !isMotherExist!.mothers[0].id){
+      return res.status(404).json({ message: 'mother not found',
+         success: false
+       });
     }
+
     // start rgistering
     const newchild = await prisma.child.create({
       data:
-      {
-        
-         date_of_birth: req.body.date_of_birth,
+      { 
+         date_of_birth: new Date(req.body.date_of_birth),
          blood_type: req.body.blood_type,
          firstname: req.body.firstname,
          middlename: req.body.middlename,
          lastname: req.body.lastname,
-         mother_id: req.body.mother_id,
+         mother_id: +isMotherExist!.mothers[0].id,
          gender:req.body.gender
       }
     });
-    res.status(200).json({
-      success: true,
-      message:newchild});
+   //  console.log(isMotherExist);
+   //  console.log(isMotherExist!.mothers[0].id)
+   //  console.log(newchild);
+   return res.status(200).json({
+      data: newchild,
+      message: "child created successfully",
+      success: true
+
+    });
    },
    update: async (req:Request,res:Response)=>{
       req.childId = +req.params.id;

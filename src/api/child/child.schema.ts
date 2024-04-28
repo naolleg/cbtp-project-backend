@@ -9,7 +9,7 @@ const childSchema ={
       firstname: z.string(),
       middlename: z.string(),
       lastname: z.string(),
-      mother_id: z.string(),
+      mother_id: z.number(),
    
       gender: z.string(),  
    }),

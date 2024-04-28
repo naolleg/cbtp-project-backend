@@ -42,7 +42,7 @@ const employeeController = {
       data: {
         username: req.body.email,
         password: req.body.password,
-        role: "MOTHER",
+        role: "REGISTRER",
         phonenumber: req.body.phonenumber,
         profiles: {
           create: {
