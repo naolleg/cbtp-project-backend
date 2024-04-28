@@ -63,7 +63,8 @@ const usersController = {
         employee: true,
       },
     });
-    res.status(200).json(user);
+    res.status(200).json({ success: true,
+      message: "found successfully",user});
   },
   changePassword: async (req: Request, res: Response) => {
     //check if user exist
@@ -71,7 +72,7 @@ const usersController = {
       where: { id: req.user!.id },
     });
     if (!isUser) {
-      return res.status(401).json({
+      return res.status(401).json({success: false,
         message: "user not found",
       });
     }
@@ -81,8 +82,8 @@ const usersController = {
       isUser!.password
     );
     if (!isMatch) {
-      return res.status(401).json({
-        message: "password does not match",
+      return res.status(401).json({success: false,
+        message:"password does not match",
       });
     }
     req.body.newPasswod = bcrypt.hashSync(req.body.newPasswod, 10);
@@ -91,7 +92,8 @@ const usersController = {
       where: { id: req.user!.id },
       data: { password: req.body.newPasswod },
     });
-    res.status(200).json(updatedPassword);
+    res.status(200).json({ success: true,
+      message: "updated successfully",updatedPassword});
   },
 
   delete: async (req: Request, res: Response) => {
@@ -126,18 +128,18 @@ const usersController = {
       },
     });
     if (!user) {
-      return res.status(401).json({
+      return res.status(401).json({success: false,
         message: "user does not found",
       });
     }
     const { otp } = req.body;
     if (otp != user.otp) {
-      return res.status(401).json({
-        message: "Invalid OTP",
+      return res.status(401).json({success: false,
+        message: "Invalid OTP"
       });
     }
    
-    const udpadteUser = await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: {
         id: user.id,
       },
@@ -156,7 +158,7 @@ const usersController = {
     const token = jwt.sign(payload, SECRET!);
     return res.status(200).json({
       message: "Otp confirmed",
-      data: udpadteUser,
+      data: updatedUser,
       token,
     });
   },

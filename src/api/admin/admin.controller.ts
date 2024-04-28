@@ -14,6 +14,7 @@ const adminController = {
 // const admin=await prisma.admins.
 // },};
 // export default adminController;
+
 registerAdmin:async (req:Request,res:Response)=>{
    let dataUrl = null;
    adminSchema.registerAdmin.parse(req.body);
@@ -21,10 +22,11 @@ registerAdmin:async (req:Request,res:Response)=>{
  if (
    (!req.files.attachments || req.files.attachments.length === 0)
  ) {
-   return res.status(403).json({
+   return res.status(403).json({sucess:false,
      message: "Content or attachments are required",
    });
  }
+ 
      // Prepare attachments
      const messageFiles = req.files?.attachments?.map((attachment: any) => ({
        url: attachment.filename,
@@ -50,7 +52,8 @@ registerAdmin:async (req:Request,res:Response)=>{
       // Send the OTP via email
       const emailResult = await sendEmail(req.body.email, otp);
       if (!emailResult.success) {
-        return res.status(500).json({ error: 'Failed to send email' });
+        return res.status(500).json({success: false,
+         message: 'Failed to send email' });
       }
     const newAdmin = await prisma.admins.create({
        data: {
@@ -73,7 +76,9 @@ registerAdmin:async (req:Request,res:Response)=>{
        }
        
     });
-    return res.json(newAdmin);
+    return res.json({
+      success: true,
+      message:newAdmin});
 }
 catch(error){
 throw error}},
@@ -81,11 +86,13 @@ throw error}},
     adminSchema.login.parse(req.body);
     const admin = await prisma.admins.findFirst({ where: { email: req.body.email } });
     if (!admin) {
-        return res.status(400).json({ error: 'email not found' });
+        return res.status(400).json({success: false,
+         message: 'email not found' });
     }
     const isMatch = bcrypt.compareSync(req.body.password, admin.password);
     if (!isMatch) {
-       return res.status(400).json({ error: 'password does not match' });
+       return res.status(400).json({success: false,
+         message: 'password does not match' });
     }
     const adminProfiles = await prisma.adminProfiles.findFirst({ where: { adminId: admin.id } });
     // Create token
@@ -96,6 +103,7 @@ throw error}},
     };
     const token = jwt.sign(payload, SECRET!);
     return res.status(200).json({
+      success:true,
        token,
        message: "Login successfully"
     });
@@ -109,7 +117,9 @@ throw error}},
           profile:true,
        }
     });
-    res.status(200).json(admin);
+    res.status(200).json({
+      success: true,
+      message:admin});
  }
 
 }

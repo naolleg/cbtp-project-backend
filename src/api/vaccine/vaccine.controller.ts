@@ -21,7 +21,7 @@ const vaccineController = {
       // });
 
       // if (vaccine) {
-      //   return res.status(401).json({
+      //   return res.status(401).json({success:false
       //     message: "vaccine already exists"
       //   });
       // }
@@ -35,7 +35,8 @@ const vaccineController = {
 
          }
     });
-      res.status(200).json(newVaccine);
+      res.status(200).json({ success: true,
+        message: "vaccine registered",newVaccine});
     // } catch (error) {
     // throw error }
   },
@@ -43,7 +44,8 @@ const vaccineController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const vaccines = await prisma.vaccine.findMany();
-      res.status(200).json(vaccines);
+      res.status(200).json({ success: true,
+        message: "vaccine found succesfully",vaccines});
     } catch (error) {
       throw(error);
     }
@@ -60,7 +62,8 @@ const vaccineController = {
     });
   
     if (!foundvaccine) {
-      return res.status(404).json({ error: 'vaccine not found' });
+      return res.status(404).json({success: false,
+        message: 'vaccine not found' });
     }
 
     // Update the news using req.body
@@ -76,7 +79,8 @@ const vaccineController = {
         id : foundvaccine.id
       }
     });
-    res.status(200).json(updatedvaccine);
+    res.status(200).json({ success: true,
+      message: "vaccine updated",updatedvaccine});
 
    },
    getsinglevaccine: async (req:Request,res:Response)=>{
@@ -89,7 +93,8 @@ const vaccineController = {
     
           });
     
-    return res.status(200).json(foundvaccine)
+    return res.status(200).json({ success: true,
+      message: "vaccine found successfully",foundvaccine})
    },
    
 deletevaccine:async (req:Request,res:Response)=>
@@ -103,7 +108,8 @@ deletevaccine:async (req:Request,res:Response)=>
   
   });
   if(!foundvaccine){
-    return res.status(404).json({ error: 'vaccine not found' });
+    return res.status(404).json({success: false,
+      message: 'vaccine not found' });
    }
   const deletedvaccine= await prisma.vaccine.delete({
     where:{
@@ -113,7 +119,8 @@ deletevaccine:async (req:Request,res:Response)=>
   
   );
   
-  return res.status(200).json(deletedvaccine);
+  return res.status(200).json({ success: true,
+    message: "vaccine deleted",deletedvaccine});
       },
 };
 
