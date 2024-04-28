@@ -10,6 +10,7 @@ const vaccineController = {
    
       
       vaccineSchema.register.parse(req.body);
+
       // Check if the vaccine already exists
       // const vaccine = await prisma.vaccine.findFirst({
       //   where: {
@@ -35,8 +36,16 @@ const vaccineController = {
 
          }
     });
+<<<<<<< HEAD
       res.status(200).json({ success: true,
         message: "vaccine registered",newVaccine});
+=======
+      res.status(200).json({
+        message: "vaccine created successfully",
+        data: newVaccine,
+        success:true
+      });
+>>>>>>> 392c853cb99f58e19d51c36b692513139062dab1
     // } catch (error) {
     // throw error }
   },
@@ -53,6 +62,7 @@ const vaccineController = {
   updatevaccine: async (req:Request,res:Response)=>{
       
     req.vaccineId=+req.params.id;
+    console.log(req.vaccineId)
     vaccineSchema.updatevaccine.parse(req.body);
  
     const foundvaccine=await prisma.vaccine.findFirst({
@@ -62,8 +72,12 @@ const vaccineController = {
     });
   
     if (!foundvaccine) {
+<<<<<<< HEAD
       return res.status(404).json({success: false,
         message: 'vaccine not found' });
+=======
+      return res.status(404).json({ message: 'vaccine not found',success: false });
+>>>>>>> 392c853cb99f58e19d51c36b692513139062dab1
     }
 
     // Update the news using req.body
@@ -79,8 +93,16 @@ const vaccineController = {
         id : foundvaccine.id
       }
     });
+<<<<<<< HEAD
     res.status(200).json({ success: true,
       message: "vaccine updated",updatedvaccine});
+=======
+    res.status(200).json({
+      message: "vaccine updated successfully",
+      data: updatedvaccine,
+      success:true
+    });
+>>>>>>> 392c853cb99f58e19d51c36b692513139062dab1
 
    },
    getsinglevaccine: async (req:Request,res:Response)=>{
