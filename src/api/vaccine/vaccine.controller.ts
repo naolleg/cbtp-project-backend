@@ -56,6 +56,7 @@ const vaccineController = {
   updatevaccine: async (req:Request,res:Response)=>{
       
     req.vaccineId=+req.params.id;
+    console.log(req.vaccineId)
     vaccineSchema.updatevaccine.parse(req.body);
  
     const foundvaccine=await prisma.vaccine.findFirst({
@@ -65,7 +66,7 @@ const vaccineController = {
     });
   
     if (!foundvaccine) {
-      return res.status(404).json({ error: 'vaccine not found' });
+      return res.status(404).json({ message: 'vaccine not found',success: false });
     }
 
     // Update the news using req.body
@@ -81,7 +82,11 @@ const vaccineController = {
         id : foundvaccine.id
       }
     });
-    res.status(200).json(updatedvaccine);
+    res.status(200).json({
+      message: "vaccine updated successfully",
+      data: updatedvaccine,
+      success:true
+    });
 
    },
    getsinglevaccine: async (req:Request,res:Response)=>{
