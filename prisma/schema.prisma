@@ -161,7 +161,6 @@ model Schedule {
   child          mother    @relation(fields: [child_id], references: [id])
 }
 
-
 model Vaccination {
   id   Int       @default(autoincrement()) @id
   child_id         Int

@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 
-export const sendSmd =async (to: string,message:string)=>{
+export const sendSmd =async (to: Number,message:string)=>{
     const token = process.env.TOKEN;
     const formData ={
         to: to,

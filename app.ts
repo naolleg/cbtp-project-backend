@@ -7,6 +7,7 @@ import { prisma } from './src/config/prisma';
 import cors from 'cors'
 import { errorMiddleware } from './src/middleware/error';
 
+
 const app = express();
 
 dotenv.config();

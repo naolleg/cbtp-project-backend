@@ -40,7 +40,7 @@ const isMotherExist = await prisma.user.findFirst({where:{
    ]
 }});
 if(isMotherExist){
-    res.status(404).json({
+   return res.status(404).json({
       success: false,
       message:  'user exists' });
 }
@@ -83,13 +83,14 @@ include:{
 }
 
 });
+
 const phone  = req.body.phonenumber;
 const message = `welcome  ${req.body.firstname} you are registerred as a mother your password is ${password}`;
 const re = await sendSmd(phone,message);
 console.log(re);
 
 
-res.status(201).json({
+return res.status(201).json({
   success: true,
   message: "registered successfully",
     newMother
@@ -118,20 +119,21 @@ res.status(201).json({
             id: +req.params.id
          },
          data:{
-            profiles:{
-               update:{
-                  firstname: req.body.firstname,
-               middlename: req.body.middlename,
-               lastname: req.body.lastname,
-               image_url: req.body.image_url,
-               gender:req.body.gender
+            // profiles:{
+            //    update:{
+            //       firstname: req.body.firstname,
+            //    middlename: req.body.middlename,
+            //    lastname: req.body.lastname,
+            //    image_url: req.body.image_url,
+            //    gender:req.body.gender
                
-               }
+            //    }
                
-            }
-       
+            
          }
-      });
+      //    }
+      // }
+    } );
 
       const update = await prisma.mother.update({
          where:{
@@ -141,7 +143,7 @@ res.status(201).json({
       date_of_birth: (req.body.birthdate),
          }
       });
-      res.status(200).json( { success: true,
+   return   res.status(200).json( { success: true,
              message: "registered successfully",
              updatedMother});
    
@@ -166,7 +168,7 @@ res.status(201).json({
       const isDeleted = await prisma.user.delete({where: {
          id: +req.mId
       }});
-      res.status(200).json({
+    return  res.status(200).json({
          message: "sucessfully deleted",
          sucess: true
       });
