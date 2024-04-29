@@ -159,7 +159,20 @@ console.log(re);
           include: {
             child: {
               include: {
-                vaccinations: true,
+                vaccinations: {
+                  include:{
+                    vaccine:true,
+                    Employee:{
+                      include:{
+                        user:{
+                          include:{
+                            profiles:true
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
               },
             },
             schedules: true,
