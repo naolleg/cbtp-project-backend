@@ -88,9 +88,9 @@ CREATE TABLE `AdminProfiles` (
 CREATE TABLE `Address` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `user_id` INTEGER NOT NULL,
-    `region` VARCHAR(191) NOT NULL,
-    `city` VARCHAR(191) NOT NULL,
-    `subcity` VARCHAR(191) NOT NULL,
+    `zone` VARCHAR(191) NOT NULL,
+    `wereda` VARCHAR(191) NOT NULL,
+    `housenumber` INTEGER NOT NULL,
 
     UNIQUE INDEX `Address_user_id_key`(`user_id`),
     PRIMARY KEY (`id`)
@@ -149,8 +149,8 @@ CREATE TABLE `Vaccination` (
     `child_id` INTEGER NOT NULL,
     `doctor_id` INTEGER NOT NULL,
     `creationDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `round` VARCHAR(191) NOT NULL,
     `vaccine_id` INTEGER NOT NULL,
+    `nextApp` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -168,7 +168,7 @@ ALTER TABLE `Profile` ADD CONSTRAINT `Profile_user_id_fkey` FOREIGN KEY (`user_i
 ALTER TABLE `AdminProfiles` ADD CONSTRAINT `AdminProfiles_adminId_fkey` FOREIGN KEY (`adminId`) REFERENCES `Admins`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Address` ADD CONSTRAINT `Address_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Address` ADD CONSTRAINT `Address_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Employee` ADD CONSTRAINT `Employee_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -177,10 +177,10 @@ ALTER TABLE `Employee` ADD CONSTRAINT `Employee_user_id_fkey` FOREIGN KEY (`user
 ALTER TABLE `mother` ADD CONSTRAINT `mother_userid_fkey` FOREIGN KEY (`userid`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Child` ADD CONSTRAINT `Child_mother_id_fkey` FOREIGN KEY (`mother_id`) REFERENCES `mother`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Child` ADD CONSTRAINT `Child_mother_id_fkey` FOREIGN KEY (`mother_id`) REFERENCES `mother`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Schedule` ADD CONSTRAINT `Schedule_child_id_fkey` FOREIGN KEY (`child_id`) REFERENCES `mother`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Schedule` ADD CONSTRAINT `Schedule_child_id_fkey` FOREIGN KEY (`child_id`) REFERENCES `mother`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Vaccination` ADD CONSTRAINT `Vaccination_child_id_fkey` FOREIGN KEY (`child_id`) REFERENCES `Child`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

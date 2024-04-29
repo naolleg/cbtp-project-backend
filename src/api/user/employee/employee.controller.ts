@@ -66,7 +66,7 @@ const employeeController = {
         profiles: true,
       },
     });
-    res.status(201).json({
+  return  res.status(201).json({
       success: true,
       message: "registered successfully",
       newUser
@@ -91,7 +91,7 @@ const employeeController = {
       },
     });
 
-    res.status(200).json({
+  return  res.status(200).json({
       success: true,
       message: "updated successfully",updatedUser});
   },
@@ -106,21 +106,25 @@ const employeeController = {
     const deletedUser = await prisma.user.delete({
       where: { id: +req.userId },
     });
-    res.status(200).json({
+   return res.status(200).json({
       message: "sucessfully deleted",
       sucess: true,
     });
   },
   getAll: async (req: Request, res: Response) => {
+    console.log("hds");
+    
     const employee = await prisma.user.findMany({
+
       where: {
-        NOT: { role: "MOTHER" },
+        NOT: { role:"REGISTRER" },
       },
+      
       include: {
         profiles: true,
       },
     });
-    res.status(200).json({
+   return res.status(200).json({
       success: true,
       message: "found successfully",employee});
   },
@@ -130,7 +134,7 @@ const employeeController = {
     if (!user) {
       return res.status(404).json({success: false,message: "user not found"});
     }
-    res.status(200).json({
+   return res.status(200).json({
       success: true,
       message: "found successfully",user});
   },

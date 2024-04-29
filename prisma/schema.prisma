@@ -1,181 +1,175 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+  // This is your Prisma schema file,
+  // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+  // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+  // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client-js"
-}
-enum Role{
-DOCTOR
-REGISTRER
-MOTHER
-ADMIN
-}
-enum GENDER{
-  FEMALE
-  MALE
-}
-enum POSITION{
-DOCTOR
-REGISTRER
-}
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-
-model Admins {
-  id Int @id @default(autoincrement())
-  email String @unique
-  phone String @unique
-  password String
-  activeSatatus Int @default(1)
-  createdAt DateTime @default(now())
-  //otp
-  otp String?
-  otpCreatedAt DateTime? @default(now())
-  otpExpiry DateTime? @default(now())
-  //
-  news News[]
-  vaccine Vaccine[]
-  role Role @default(ADMIN)
-  profile AdminProfiles[]
+  generator client {
+    provider = "prisma-client-js"
+  }
+  enum Role{
+  DOCTOR
+  REGISTRER
+  MOTHER
+  ADMIN
+  }
+  enum GENDER{
+    FEMALE
+    MALE
+  }
+  enum POSITION{
+  DOCTOR
+  REGISTRER
+  }
+  datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
   }
 
-model News {
-  id            Int  @id    @default(autoincrement())
-  adminId Int?
-  image_url          String
-  title              String
-  description        String
-  publication_date   DateTime @default(now())
-  admin Admins? @relation(fields: [adminId],references: [id],onDelete: Cascade)
+
+  model Admins {
+    id Int @id @default(autoincrement())
+    email String @unique
+    phone String @unique
+    password String
+    activeSatatus Int @default(1)
+    createdAt DateTime @default(now())
+    //otp
+    otp String?
+    otpCreatedAt DateTime? @default(now())
+    otpExpiry DateTime? @default(now())
+    //
+    news News[]
+    vaccine Vaccine[]
+    role Role @default(ADMIN)
+    profile AdminProfiles[]
+    }
+
+  model News {
+    id            Int  @id    @default(autoincrement())
+    adminId Int?
+    image_url          String
+    title              String
+    description        String
+    publication_date   DateTime @default(now())
+    admin Admins? @relation(fields: [adminId],references: [id],onDelete: Cascade)
+    
+  }
+
+  model Vaccine {
+    id    Int      @default(autoincrement()) @id
+    adminId        Int?
+    v_name        String
+    description   String?
+    ageRange String
+    vaccinations    Vaccination[]
+    admin Admins? @relation(fields: [adminId],references: [id],onDelete: Cascade)
+  }
+
+  model User {
+    id       Int       @default(autoincrement()) @id
+    username      String
+    role          Role
+    password      String
+    status        Int  @default(1)
+    createdDate   DateTime @default(now())
+    phonenumber   String
+    activeSatatus Int @default(1)
+    //OTP
+    otp String?
+    otpCreatedAt DateTime? @default(now())
+    otpExpiry DateTime? @default(now())
+
+    employee       Employee[]
+    mothers       mother[]
+    profiles      Profile[]
+    Address       Address[]
+    
+  }
+
+  model Profile {
+    id   Int      @default(autoincrement()) @id
+    user_id      Int @unique
+    firstname     String
+    lastname      String
+    middlename    String
+    image_url     String
+    gender        GENDER
+    position       POSITION?
+    user         User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
+    
+  }
+  model AdminProfiles {
+    id Int @id @default(autoincrement())
+    adminId Int @unique
+    firstName String
+    middleName String
+    lastName String
+    imageUrl String? 
+    // References
+    admin Admins @relation(fields: [adminId], references:[id],onDelete: Cascade)
+  }
+
+  model Address {
+    id   Int      @default(autoincrement()) @id
+    user_id     Int @unique
+    zone  String  
+    wereda    String
+    housenumber  Int
+    user           User       @relation(fields: [user_id], references: [id],onDelete: Cascade)
+  }
+
+  model Employee {
+    id               Int      @default(autoincrement()) @id
+    user_id          Int      @unique
+    email            String   @unique
+    user             User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
+    vaccinations     Vaccination[]
   
-}
-
-model Vaccine {
-  id    Int      @default(autoincrement()) @id
-  adminId        Int?
-  v_name        String
-  description   String?
-  ageRange String
-  vaccinations    Vaccination[]
-  admin Admins? @relation(fields: [adminId],references: [id],onDelete: Cascade)
-}
-
-model User {
-  id       Int       @default(autoincrement()) @id
-  username      String
-  role          Role
-  password      String
-  status        Int  @default(1)
-  createdDate   DateTime @default(now())
-  phonenumber   String
-  activeSatatus Int @default(1)
-  //OTP
-  otp String?
-  otpCreatedAt DateTime? @default(now())
-  otpExpiry DateTime? @default(now())
-
-  employee       Employee[]
-  mothers       mother[]
-  profiles      Profile[]
-  Address       Address[]
-  
-}
-
-model Profile {
-  id   Int      @default(autoincrement()) @id
-  user_id      Int @unique
-  firstname     String
-  lastname      String
-  middlename    String
-  image_url     String
-  gender        GENDER
-  position       POSITION?
-  user         User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
-  
-}
-model AdminProfiles {
-  id Int @id @default(autoincrement())
-  adminId Int @unique
-  firstName String
-  middleName String
-  lastName String
-  imageUrl String? 
-  // References
-  admin Admins @relation(fields: [adminId], references:[id],onDelete: Cascade)
-}
-
-model Address {
-  id   Int      @default(autoincrement()) @id
-  user_id     Int @unique
-  region  String  
-  city    String
-  subcity String
-  user           User       @relation(fields: [user_id], references: [id],onDelete: Cascade)
-}
-
-model Employee {
-  id               Int      @default(autoincrement()) @id
-  user_id          Int      @unique
-  email            String   @unique
-  user             User     @relation(fields: [user_id], references: [id],onDelete: Cascade)
-  vaccinations     Vaccination[]
- 
-}
+  }
 
 
-model mother {
-  id      Int      @default(autoincrement()) @id
-  userid         Int     @unique
-  date_of_birth  String
-  schedules      Schedule[]
-  user           User       @relation(fields: [userid], references: [id],onDelete: Cascade)
-  child         Child[]
-}
+  model mother {
+    id      Int      @default(autoincrement()) @id
+    userid         Int     @unique
+    date_of_birth  String
+    schedules      Schedule[]
+    user           User       @relation(fields: [userid], references: [id],onDelete: Cascade)
+    child         Child[]
+  }
 
-model Child {
-  id       Int      @default(autoincrement()) @id
-  mother_id      Int?
-  firstname      String
-  lastname       String
-  middlename     String
-  gender         String
-  date_of_birth  DateTime?
-  blood_type     String?
-  created_time    DateTime @default(now())
-  mother         mother?  @relation(fields: [mother_id], references: [id],onDelete: Cascade)
-  vaccinations   Vaccination[]
-}
+  model Child {
+    id       Int      @default(autoincrement()) @id
+    mother_id      Int?
+    firstname      String
+    lastname       String
+    middlename     String
+    gender         String
+    date_of_birth  DateTime?
+    blood_type     String?
+    created_time    DateTime @default(now())
+    mother         mother?  @relation(fields: [mother_id], references: [id],onDelete: Cascade)
+    vaccinations   Vaccination[]
+  }
 
-model Schedule {
-  id    Int       @default(autoincrement()) @id
-  child_id       Int
-  next_schedule  DateTime
-  description    String
-  createdAt DateTime @default(now())  
-  child          mother    @relation(fields: [child_id], references: [id],onDelete: Cascade)
-}
+  model Schedule {
+    id    Int       @default(autoincrement()) @id
+    child_id       Int
+    next_schedule  DateTime
+    description    String
+    createdAt DateTime @default(now())  
+    child          mother    @relation(fields: [child_id], references: [id],onDelete: Cascade)
+  }
 
-model Vaccination {
-  id   Int       @default(autoincrement()) @id
-  child_id         Int
-  doctor_id        Int
-  creationDate     DateTime  @default(now())  
-  vaccine_id       Int
-  nextApp          DateTime?
-<<<<<<< HEAD
-  child            Child    @relation(fields: [child_id], references: [id])
-  Employee         Employee @relation(fields: [doctor_id], references: [id])
-  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id])
-=======
-  child            Child    @relation(fields: [child_id], references: [id],onDelete: Cascade)
-  Employee         Employee @relation(fields: [doctor_id], references: [id],onDelete: Cascade)
-  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id],onDelete: Cascade)
->>>>>>> 248baa1f59bf9d9c3d68b7d22274171187c2ec86
-}
+  model Vaccination {
+    id   Int       @default(autoincrement()) @id
+    child_id         Int
+    doctor_id        Int
+    creationDate     DateTime  @default(now())  
+    vaccine_id       Int
+    nextApp          DateTime?
+    child            Child?    @relation(fields: [child_id], references: [id])
+    Employee         Employee @relation(fields: [doctor_id], references: [id])
+    vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id])
+  }
 

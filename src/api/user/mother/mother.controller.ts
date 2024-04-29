@@ -7,6 +7,7 @@ import { generatePassword } from "../../../../util/otp.js";
 import { sendSmd } from "../../../../util/m.js";
 import { log } from "console";
 import { BASE_URL } from "../../../config/secrete.js";
+import { bold } from "colors/index.js";
 
 const motherController = {
   register: async (req: Request, res: Response) => {
@@ -37,7 +38,7 @@ const motherController = {
     }
     const password = generatePassword();
     req.body.password = bcrypt.hashSync(password, 10);
-
+    console.log(req.body);
     //create the employee
     const newMother = await prisma.user.create({
       data: {
@@ -64,9 +65,9 @@ const motherController = {
       },
       Address:{
          create:{
-            city:req.body.city,
-            subcity:req.body.subcity,
-            region:req.body.region
+            wereda:req.body.wereda,
+            zone:req.body.zone,
+            housenumber: +req.body.housenumber
          }
       }
 },
