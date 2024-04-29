@@ -5,6 +5,9 @@ import { prisma } from "../../config/prisma.js";
 
 
 const childController ={
+   vaccinate:  async (req:Request,res:Response)=>{
+      console.log(req.body);
+   },
    register: async (req:Request,res:Response)=>{
     childSchema.registerChild.parse(req.body);
     //check if mother exist 
@@ -27,6 +30,7 @@ const childController ={
        });
     }
 
+   
     // start rgistering
     const newchild = await prisma.child.create({
       data:

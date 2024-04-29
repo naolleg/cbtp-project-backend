@@ -167,8 +167,8 @@ model Vaccination {
   child_id         Int
   doctor_id        Int
   creationDate     DateTime  @default(now())  
-  round            String
   vaccine_id       Int
+  nextApp          DateTime?
   child            Child    @relation(fields: [child_id], references: [id])
   Employee         Employee @relation(fields: [doctor_id], references: [id])
   vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id])

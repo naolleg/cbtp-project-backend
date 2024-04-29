@@ -7,6 +7,8 @@ import errorHandler from "../../config/errorHandler.js";
 const childRouter:Router = Router();
 
 childRouter.post('/', errorHandler(childController.register));
+
+childRouter.post('/vaccinet', errorHandler(childController.vaccinate));
 childRouter.put('/:id',[isEmployee], errorHandler(childController.update));
 childRouter.delete('/:id',[isEmployee], errorHandler(childController.delete));
 // Get all children of a specific parent or

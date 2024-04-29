@@ -7,7 +7,9 @@ import { SECRET } from "../../config/secrete";
 
 const usersController = {
   loginUser: async (req: Request, res: Response) => {
-    try {
+    console.log("[[[[[[[[[[[[[[[[[[[[[[[[");
+    console.log(req.body);
+    
       userSchema.login.parse(req.body);
       console.log(req.body);
       const user = await prisma.user.findFirst({
@@ -18,12 +20,14 @@ const usersController = {
       if (!user) {
         return res.status(401).json({
           message: "Invalid username or password",
+          success: false,
         });
       }
 
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
       if (!isMatch) {
         return res.status(401).json({
+          success:false,
           message: "Invalid username or password",
         });
       }
@@ -43,10 +47,9 @@ const usersController = {
       return res.status(200).json({
         token,
         message: "Login successfully",
+        success: true,
       });
-    } catch (error) {
-      throw (error);
-    }
+    
   },
   myInfo: async (req: Request, res: Response) => {
     const user = await prisma.user.findFirst({
