@@ -7,5 +7,5 @@ const vaccinationRoute: Router = Router();
 vaccinationRoute.get("/", errorHandler(vaccinationController.getAllvaccination));
 vaccinationRoute.post("/", errorHandler(vaccinationController.vaccinate));
 vaccinationRoute.get("/:id",errorHandler(vaccinationController.getsinglevaccination));
-
+vaccinationRoute.put("/:id", errorHandler(vaccinationController.updatevaccinate));
 export default vaccinationRoute;
