@@ -59,18 +59,28 @@ const motherController = {
         mothers: {
           create: {
             date_of_birth: req.body.date_of_birth,
-          },
-        },
+          
+         }
       },
-      include: {
-        profiles: true,
-        mothers: true,
-      },
-    });
-    const phone = req.body.phonenumbe;
-    const message = `wellcome mr. ${req.body.firstName} your password is ${password}`;
-    const re = await sendSmd(phone, message);
-    console.log(re);
+      Address:{
+         create:{
+            city:req.body.city,
+            subcity:req.body.subcity,
+            region:req.body.region
+         }
+      }
+},
+include:{
+   profiles: true,
+   mothers:true
+}
+
+});
+
+const phone  = req.body.phonenumber;
+const message = `welcome  ${req.body.firstname} you are registerred as a mother your password is ${password}`;
+const re = await sendSmd(phone,message);
+console.log(re);
 
     return res.status(201).json({
       success: true,

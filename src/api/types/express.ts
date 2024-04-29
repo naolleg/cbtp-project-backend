@@ -10,6 +10,7 @@ declare module 'express' {
     // registeredBy: number;
     userId?: number;
     newsId: number;
+    vaccinationId:number;
     vaccineId: number;
     // hsId: number;
     mId: number;

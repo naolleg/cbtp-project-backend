@@ -34,7 +34,7 @@ const newsController = {
         }
        
        });
-      res.status(200).json({
+    return  res.status(200).json({
         message: "News created successfully",
         success: true,
         data:theNewNews
@@ -93,7 +93,7 @@ const newsController = {
           id : foundNews.id
         }
       });
-      res.status(200).json({ success: true,
+      return res.status(200).json({ success: true,
         message: "updated successfully",updatedNews});
   
      },
