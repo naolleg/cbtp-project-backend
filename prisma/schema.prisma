@@ -116,7 +116,7 @@ model Address {
   region  String  
   city    String
   subcity String
-  user           User       @relation(fields: [user_id], references: [id])
+  user           User       @relation(fields: [user_id], references: [id],onDelete: Cascade)
 }
 
 model Employee {
@@ -148,7 +148,7 @@ model Child {
   date_of_birth  DateTime?
   blood_type     String?
   created_time    DateTime @default(now())
-  mother         mother?  @relation(fields: [mother_id], references: [id])
+  mother         mother?  @relation(fields: [mother_id], references: [id],onDelete: Cascade)
   vaccinations   Vaccination[]
 }
 
@@ -158,7 +158,7 @@ model Schedule {
   next_schedule  DateTime
   description    String
   createdAt DateTime @default(now())  
-  child          mother    @relation(fields: [child_id], references: [id])
+  child          mother    @relation(fields: [child_id], references: [id],onDelete: Cascade)
 }
 
 model Vaccination {
@@ -166,10 +166,10 @@ model Vaccination {
   child_id         Int
   doctor_id        Int
   creationDate     DateTime  @default(now())  
-  round            String
   vaccine_id       Int
-  child            Child    @relation(fields: [child_id], references: [id])
-  Employee         Employee @relation(fields: [doctor_id], references: [id])
-  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id])
+  nextApp          DateTime?
+  child            Child    @relation(fields: [child_id], references: [id],onDelete: Cascade)
+  Employee         Employee @relation(fields: [doctor_id], references: [id],onDelete: Cascade)
+  vaccine          Vaccine  @relation(fields: [vaccine_id], references: [id],onDelete: Cascade)
 }
 

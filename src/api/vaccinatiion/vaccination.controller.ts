@@ -2,7 +2,7 @@ import {Request, Response } from "express";
 import { prisma } from "../../config/prisma.js";
 import { create } from "axios";
 import { sendSmd } from "../../../util/m.js";
-import { number } from "zod";
+import moment from "moment";
 //import vaccinationSchema from "./vaccination.schema.js";
 
 
@@ -12,16 +12,17 @@ const vaccinationController = {
     // try {
    
       
-    //  vaccinationSchema.register.parse(req.body);
+  //  vaccinationSchema.vaccinate.parse(req.body);
                                  
-      
+      const nextApp=req.body.nextApp
 
       const newVaccination = await prisma.vaccination.create({
            data:{
              vaccine_id:req.body.vaccine_id,
-             child_id: +req.body!.child_id,
+             child_id: req.body.child_id,
              doctor_id:req.body.doctor_id,
-             round:req.body.round,
+             creationDate:new Date(),
+             nextApp:new Date
             }
 
           });
@@ -29,27 +30,44 @@ const vaccinationController = {
             where: {
               id: req.body.child_id
             },
+          
+           
+            
            include:{
+            
             mother:{
               include:{
                 user:{
+              //     include:{
+              //  profiles:{
+              //   select:{
+              //     firstname:true
+              //   }
+              //  }
+              //     },
                   select:{
-                    phonenumber:true
+                    phonenumber:true,
+                    username:true
                   }
+                  
                 }
               }
             }
-           }})
+          },
+          })
+          const childname=ischild?.firstname
              const  phone=Number(ischild?.mother?.user.phonenumber)
-       
-        const message = ``;
+       console.log("fdvdfv");
+       const name=ischild?.mother?.user.username
+       const nextAppWords = moment(nextApp).format('MMMM Do YYYY, h:mm:ss a'); 
+        const message = `hey ${name} come next on ${nextAppWords} for your child ${childname} next apointment`;
         const re = await sendSmd(phone,message);
         console.log(re);
          
         
          
     
-      res.status(200).json({ success: true,
+     return res.status(200).json({ success: true,
         message: "vaccine registered",newVaccination});
     // } catch (error) {
     // throw error }
