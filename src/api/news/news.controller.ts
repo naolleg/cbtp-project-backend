@@ -10,8 +10,6 @@ const newsController = {
   createnew: async (req: Request, res: Response) => {
     let dataUrl = null;
     const attachments = req.files?.attachments;
-    console.log("/////////////////////////////////////")
-  console.log(attachments);
     // Check if content or attachments are provided
     if (!attachments || attachments.length === 0) {
       return res.status(403).json({
@@ -24,41 +22,28 @@ const newsController = {
     const messageFiles = attachments.map((attachment: any) => ({
       url: attachment.filename,
     }));
-  console.log(messageFiles)
+
     const url = `${BASE_URL}images/${messageFiles[0].url}`;
     dataUrl = url;
-    console.log(url);
-    console.log(req.body);
-    const adminid  =parseInt(req.body.adminid)
-    try {
-      const theNewNews = await prisma.news.create({
+      const id =req.body.adminId;
+
+   
+       const theNewNews = await prisma.news.create({
         data: {
+          image_url: url,
+          title: req.body.title,
+          description: req.body.description,
+          adminId: +id,
           
-         title: req.body.title,
-         description: req.body.description,
-         publication_date: new Date(),
-         image_url: url,
-         adminId: adminid,
-        // description: req.body.description,
-        // publication_date: new Date(),
-        // image_url: url,
-        // adminId: parseInt(req.body.adminId),
-        },
-      });
-      console.log("''''''''''''''''''''''''''")
-  console.log(theNewNews)
+        }
+       })
       return res.status(200).json({
         message: "News created successfully",
         success: true,
         data: theNewNews,
       });
-    } catch (error: any) {
-      return res.status(500).json({
-        message: "Failed to create news",
-        success: false,
-        error: error.message,
-      });
-    }
+  
+    
   },
 
   //get public news

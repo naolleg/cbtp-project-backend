@@ -112,12 +112,10 @@ const employeeController = {
     });
   },
   getAll: async (req: Request, res: Response) => {
-    console.log("hds");
-    
     const employee = await prisma.user.findMany({
 
       where: {
-        NOT: { role:"REGISTRER" },
+        NOT: { role:"ADMIN" },
       },
       
       include: {

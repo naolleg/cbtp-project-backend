@@ -6,6 +6,7 @@ const errorHandler:any =(method:Function)=> {
         await method(req,res,next);
       } catch (error:any) {
          //   console.log(error.message);
+         res.status(404).json({ success: false,message: error.message, error: error.message });
          next(error);
       }
    }
