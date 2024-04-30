@@ -37,10 +37,20 @@ const vaccinationController = {
           },
         },
       },
+
       include: {
         profiles: true,
+        employee:true,
       },
     });
+    console.log({
+      child_id: +req.body.child_id,
+      doctor_id: +req.body.doctor_id,
+      creationDate: new Date(),
+      nextApp: new Date(nextApp),
+      vaccine_id: +req.body.vaccine_id,
+    },)
+    console.log(doctorExist);
     if (!doctorExist) {
       return res
         .status(404)
@@ -48,57 +58,20 @@ const vaccinationController = {
     }
     const newVaccination = await prisma.vaccination.create({
       data: {
+
         child_id: +req.body.child_id,
-        doctor_id: +req.body.doctor_id,
-        creationDate: new Date(),
+        doctor_id: 1,
         nextApp: new Date(nextApp),
         vaccine_id: +req.body.vaccine_id,
       },
     });
-    console.log(req.body);
-    console.log(newVaccination);
-    console.log("iiiiiiiiiiiiiiiiiiiiiiiiiii");
+    console.log(newVaccination)
+
     return res.status(200).json({
       success: true,
       message: "child vaccinated sucessfully",
       newVaccination,
     });
-    // const newVaccination = await prisma.vaccination.create({
-    //   data: {
-    //     vaccine_id: req.body.vaccine_id,
-    //     child_id: req.body.child_id,
-    //     doctor_id: req.body.doctor_id,
-    //     creationDate: new Date(),
-    //     nextApp: new Date(nextApp),
-
-    //   },
-    // });
-    // const ischild = await prisma.child.findFirst({
-    //   where: {
-    //     id: req.body.child_id,
-    //   },
-
-    //   include: {
-    //     mother: {
-    //       include: {
-    //         user: {
-    //           select: {
-    //             phonenumber: true,
-    //             username: true,
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
-    // const childname = ischild?.firstname;
-    // const phone = ischild?.mother?.user.phonenumber!;
-    // //  console.log("fdvdfv");
-    // const name = ischild?.mother?.user.username;
-    // const nextAppWords = moment(nextApp).format("MMMM Do YYYY, h:mm:ss a");
-    // const message = `hey ${name} come next on ${nextAppWords} for your child ${childname} next apointment`;
-    // const re = await sendSmd(phone, message);
-    // console.log(re);
   },
 
   getAllvaccination: async (req: Request, res: Response) => {
