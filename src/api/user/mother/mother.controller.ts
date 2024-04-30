@@ -11,6 +11,7 @@ import { bold } from "colors/index.js";
 
 const motherController = {
   register: async (req: Request, res: Response) => {
+    console.log(req.body)
     let dataUrl = null;
 
     // Check if content or attachments are provided
@@ -155,6 +156,7 @@ console.log(re);
       include: {
         profiles: true,
         Address: true,
+        
         mothers: {
           include: {
             child: {
